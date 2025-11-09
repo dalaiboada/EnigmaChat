@@ -1,0 +1,33 @@
+/* Texto de inicialización del sistema 
+* Inicializando módulos de autenticación
+* Cargando protocolos de seguridad
+* Sistema listo para autenticación
+*/
+.terminal-lines {
+	font-family: 'Courier New', monospace;
+	font-size: 12px;
+	line-height: 1.5;
+	color: var(--color-text);
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-top: 15px;
+	padding: 10px;
+}
+
+.terminal-line {
+	margin-bottom: 8px;
+	opacity: 0.9;
+	transition: opacity 0.3s ease;
+}
+
+.cursor {
+	display: inline-block;
+	width: 8px;
+	height: 14px;
+	background-color: var(--color-cyan);
+	animation: blink 1s infinite;
+	vertical-align: middle;
+	margin-left: 2px;
+}

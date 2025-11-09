@@ -1,0 +1,13 @@
+@import "ScannerTitle.css";
+@import "FingerprintScanner/FingerprintScanner.css";
+@import "TerminalLine.css";
+
+/* PANEL DERECHO - Escáner de Huella y texto de inicialización */
+.right-panel {
+	padding: 15px;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}

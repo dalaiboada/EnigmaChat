@@ -1,2 +1,9 @@
 @import "base.css";
 @import "BackgroundEffects.css";
+@import "Dashboard.css";
+@import "Header/Header.css";
+@import "RightPanel/RigthPanel.css";
+@import "CenterPanel/CenterPanel.css";
+@import "Footer/Footer.css";
+@import "LeftPanel/LeftPanel.css";
+

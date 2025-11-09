@@ -1,0 +1,10 @@
+@import "ProtocolTitle.css";
+@import "ProtocolList.css";
+
+/* CONTENEDOR DE PROTOCOLOS DE SEGURIDAD */
+.security-protocols {
+	padding: 12px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}

@@ -1,0 +1,8 @@
+.scanner-title {
+	color: var(--color-electric-blue);
+	font-size: 18px;
+	margin-bottom: 15px;
+	text-align: center;
+	letter-spacing: 2px;
+	text-shadow: 0 0 10px var(--color-electric-blue);
+}

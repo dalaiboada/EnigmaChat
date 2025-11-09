@@ -1,0 +1,13 @@
+.system-info {
+	display: flex;
+	gap: 20px;
+}
+
+.info-item {
+	font-size: 14px;
+	letter-spacing: 2px;
+}
+
+.info-label {
+	color: var(--color-cyan);
+}

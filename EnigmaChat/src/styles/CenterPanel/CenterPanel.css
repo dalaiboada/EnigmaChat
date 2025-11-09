@@ -1,0 +1,13 @@
+@import "Corner.css";
+@import "CTR/CTR.css";
+
+/* PANEL CENTRAL - Login / Registrarse */
+.center-panel {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	overflow: hidden;
+	padding: 20px 30px;
+}

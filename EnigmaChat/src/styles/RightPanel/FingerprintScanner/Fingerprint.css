@@ -1,0 +1,47 @@
+.fingerprint-container {
+	width: 150px;
+	height: 150px;
+	background: rgba(5, 10, 20, 0.8);
+	border: 2px solid var(--color-electric-blue);
+	border-radius: 10px;
+	position: relative;
+	overflow: hidden;
+	box-shadow: 
+		inset 0 0 15px rgba(0, 255, 255, 0.2),
+		0 0 20px rgba(0, 255, 255, 0.3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 10px;
+}
+
+/* Icono de FontAwesome */
+.fingerprint-icon {
+	font-size: 70px;
+	color: var(--color-electric-blue);
+	filter: drop-shadow(0 0 8px var(--color-electric-blue));
+	transition: all 0.5s ease;
+	z-index: 1;
+}
+
+.fingerprint-container.active .fingerprint-icon {
+	color: var(--color-neon-green);
+	filter: drop-shadow(0 0 12px var(--color-neon-green));
+	animation: fingerprintPulse 1.5s infinite alternate;
+}
+
+/* Línea de escaneo */
+.fingerprint-scan-line {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 3px;
+	background: linear-gradient(90deg, 
+		transparent, 
+		var(--color-electric-blue), 
+		transparent);
+	box-shadow: 0 0 10px var(--color-electric-blue);
+	animation: fingerprintScan 3s linear infinite;
+	z-index: 2;
+}

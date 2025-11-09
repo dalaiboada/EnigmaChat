@@ -1,0 +1,55 @@
+/* Esquinas */
+.corner {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	z-index: 3;
+}
+
+/* Esquina superior izquierda*/
+.corner-tl {
+	top: -2px;
+	left: -2px;
+	border-top: 3px solid var(--color-cyan);
+	border-left: 3px solid var(--color-cyan);
+	border-top-left-radius: 8px;
+	box-shadow: 
+		-2px -2px 5px var(--color-glow),
+		inset -2px -2px 5px rgba(0, 255, 255, 0.2);
+}
+
+/* Esquina superior derecha*/
+.corner-tr {
+	top: -2px;
+	right: -2px;
+	border-top: 3px solid var(--color-cyan);
+	border-right: 3px solid var(--color-cyan);
+	border-top-right-radius: 8px;
+	box-shadow: 
+		2px -2px 5px var(--color-glow),
+		inset 2px -2px 5px rgba(0, 255, 255, 0.2);
+}
+
+/* Esquina inferior izquierda*/
+.corner-bl {
+	bottom: -2px;
+	left: -2px;
+	border-bottom: 3px solid var(--color-cyan);
+	border-left: 3px solid var(--color-cyan);
+	border-bottom-left-radius: 8px;
+	box-shadow: 
+		-2px 2px 5px var(--color-glow),
+		inset -2px 2px 5px rgba(0, 255, 255, 0.2);
+}
+
+/* Esquina inferior izquierda*/
+.corner-br {
+	bottom: -2px;
+	right: -2px;
+	border-bottom: 3px solid var(--color-cyan);
+	border-right: 3px solid var(--color-cyan);
+	border-bottom-right-radius: 8px;
+	box-shadow: 
+		2px 2px 5px var(--color-glow),
+		inset 2px 2px 5px rgba(0, 255, 255, 0.2);
+}

@@ -1,0 +1,9 @@
+@import "SecurityProtocols/SecurityProtocols.css";
+
+/* Panel izquierdo - PROTOCOLOS DE SEGURIDAD */
+.left-panel {
+	border-radius: 5px;
+	padding: 15px;
+	overflow: hidden;
+	position: relative;
+}

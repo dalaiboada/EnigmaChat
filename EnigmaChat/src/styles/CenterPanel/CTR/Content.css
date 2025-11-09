@@ -1,0 +1,38 @@
+@import "Header/Title.css";
+@import "Header/Tab.css";
+
+/* Contenido del CRT - Scrollable para los formularios */
+.crt-content {
+	position: relative;
+	z-index: 3;
+	height: calc(100% - 120px);
+	overflow-y: auto;
+	padding-right: 20px;
+	margin-top: 10px;
+}
+
+/* scrollbar */
+.crt-content::-webkit-scrollbar {
+	width: 8px;
+}
+
+.crt-content::-webkit-scrollbar-track {
+	background: rgba(0, 0, 0, 0.3);
+	border-radius: 4px;
+	box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.1);
+}
+
+.crt-content::-webkit-scrollbar-thumb {
+	background: linear-gradient(to bottom, var(--color-cyan), var(--color-electric-blue));
+	border-radius: 4px;
+	box-shadow: 
+		0 0 5px var(--color-cyan),
+		inset 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+.crt-content::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(to bottom, var(--color-electric-blue), var(--color-cyan));
+	box-shadow: 
+		0 0 8px var(--color-cyan),
+		inset 0 0 3px rgba(0, 0, 0, 0.5);
+}

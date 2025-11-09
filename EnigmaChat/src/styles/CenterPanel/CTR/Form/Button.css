@@ -1,0 +1,23 @@
+.btn-login {
+	width: 70%;
+	padding: 11px;
+	background: rgba(0, 255, 255, 0.1);
+	border: 1px solid var(--color-cyan);
+	border-radius: 3px;
+	color: var(--color-text);
+	font-family: var(--fuente);
+	cursor: pointer;
+	transition: all 0.3s ease;
+	box-shadow: 0 0 8px var(--color-glow);
+	font-weight: bold;
+	letter-spacing: 2px;
+	margin-top: 8px;
+	font-size: 14px;
+	align-self: center;
+}
+
+.btn-login:hover {
+	background: rgba(0, 255, 255, 0.2);
+	box-shadow: 0 0 20px var(--color-cyan);
+	transform: translateY(-2px);
+}

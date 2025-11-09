@@ -1,0 +1,13 @@
+.crt-title {
+	color: var(--color-h1);
+	text-shadow: 0 0 10px var(--color-glow);
+	font-weight: 700;
+	margin-top: 0;
+	letter-spacing: 2px;
+	border-bottom: 1px solid var(--color-cyan);
+	padding-bottom: 10px;
+	box-shadow: 0 5px 10px -5px var(--color-glow);
+	text-align: center;
+	margin-bottom: 20px;
+	font-size: 22px;
+}

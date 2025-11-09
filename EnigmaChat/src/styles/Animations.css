@@ -1,0 +1,115 @@
+@keyframes scan {
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: 0 100%;
+	}
+}
+
+/* Animación de partículas */
+@keyframes particleAnim {
+    0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-100px) translateX(100px);
+        opacity: 0;
+    }
+}
+
+/* Animación de pulsado */
+@keyframes pulse {
+	0%, 100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
+
+/* Animación de brillo */
+@keyframes shine {
+	0% {
+		background-position: 0% center;
+	}
+	100% {
+		background-position: 200% center;
+	}
+}
+
+/* Animación de deslizamiento */
+@keyframes slide {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+/* Animación de parpadeo */
+@keyframes flicker {
+	0%, 100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.98;
+	}
+}
+
+/* Animación de rotación del rectángulo */
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/* Animaciones para el escáner de huella */
+@keyframes fingerprintScan {
+	0% {
+		top: 0;
+		opacity: 0;
+	}
+	10% {
+		opacity: 1;
+	}
+	90% {
+		opacity: 1;
+	}
+	100% {
+		top: 100%;
+		opacity: 0;
+	}
+}
+
+/* Animación de pulsado del escáner de huella */
+@keyframes fingerprintPulse {
+	0% {
+		transform: scale(1);
+		filter: drop-shadow(0 0 8px var(--color-neon-green));
+	}
+	100% {
+		transform: scale(1.05);
+		filter: drop-shadow(0 0 15px var(--color-neon-green));
+	}
+}
+
+@keyframes blink {
+	0%, 100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+}

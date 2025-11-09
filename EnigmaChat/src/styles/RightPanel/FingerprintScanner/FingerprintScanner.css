@@ -1,0 +1,14 @@
+@import "Fingerprint.css";
+@import "ScannerStatus.css";
+
+/* Escáner de Huella: Huella, Línea de Escaneo y estado de la operación */
+.fingerprint-scanner {
+	width: 100%;
+	height: 220px;
+	position: relative;
+	margin-bottom: 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
