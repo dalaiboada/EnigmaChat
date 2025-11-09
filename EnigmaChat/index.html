@@ -16,6 +16,174 @@
 	  <div class="scanlines"></div>
 	  <div class="particles" id="particles"></div>
 
+    <div class="dashboard">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">
+          <h1>ENIGMA SYSTEM</h1>
+        </div>
+
+        <div class="status-bar">
+          <div class="status-item">
+            <div class="status-dot"></div>
+            <div class="status-text">SISTEMA OPERATIVO</div>
+          </div>
+          
+          <div class="status-item">
+            <div class="status-dot" style="background: #ffcc00; box-shadow: 0 0 8px #ffcc00;"></div>
+            <div class="status-text">ENCRIPTACIÓN ACTIVA</div>
+          </div>
+          
+          <div class="status-item">
+            <div class="status-dot"></div>
+            <div class="status-text">RED SEGURA</div>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Panel izquierdo - PROTOCOLOS DE SEGURIDAD -->
+      <div class="left-panel">
+        <div class="security-protocols">
+          <div class="protocol-title">PROTOCOLOS DE SEGURIDAD ACTIVOS</div>
+          <ul class="protocol-list">
+            <li class="protocol-item">Sistema de cifrado de mensajes con Enigma 1936</li>
+            <li class="protocol-item">Autenticación de dos factores requerida</li>
+            <li class="protocol-item">Buzón de mensajes cifrados en tiempo real</li>
+            <li class="protocol-item">Verificación de integridad de datos</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Panel central - LOGIN -->
+      <div class="center-panel">
+        <div class="crt-container">
+          <div class="crt-frame"></div>
+          <div class="corner corner-tl" ></div>
+          <div class="corner corner-tr"></div>
+          <div class="corner corner-bl"></div>
+          <div class="corner corner-br"></div>
+          
+          <!-- Encabezado fijo -->
+          <div class="crt-header">
+            <h1 class="crt-title">ACCESO AL SISTEMA</h1>
+            
+            <!-- Tabs para login/registro -->
+            <div class="tabs">
+              <button class="tab active" data-tab="login">INICIAR SESIÓN</button>
+              <button class="tab" data-tab="register">REGISTRARSE</button>
+            </div>
+          </div>
+          
+          <!-- Contenido scrollable -->
+          <div class="crt-content">
+            <!-- Formulario de Login -->
+            <form id="login-form" class="form-container active">
+              <div class="field-group">
+                <label for="usuario">IDENTIFICACIÓN</label>
+                <div class="input-field">
+                  <input type="text" id="usuario" placeholder="Agente_000" required>
+                  <span class="input-icon"><i class="fa-solid fa-user"></i></span>
+                </div>
+              </div>
+              
+              <div class="field-group">
+                <label for="contrasena">CONTRASEÑA</label>
+                <div class="input-field">
+                  <input type="password" id="contrasena" placeholder="••••••••" required>
+                  <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                </div>
+              </div>
+              
+              <button type="submit" class="btn-login">ACCEDER AL SISTEMA</button>
+            </form>
+              
+            <!-- Formulario de Registro -->
+            <form id="register-form" class="form-container">
+              <div class="field-group">
+                <label for="reg-username">NOMBRE DE USUARIO</label>
+                <div class="input-field">
+                  <input type="text" id="reg-username" placeholder="Agente_000" required>
+                  <span class="input-icon"><i class="fa-solid fa-user"></i></span>
+                </div>
+              </div>
+              
+              <div class="field-group">
+                <label for="reg-email">CORREO ELECTRÓNICO</label>
+                <div class="input-field">
+                  <input type="email" id="reg-email" placeholder="agente@enigma.system" required>
+                  <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
+                </div>
+              </div>
+              
+              <div class="field-group">
+                <label for="reg-password">CONTRASEÑA</label>
+                <div class="input-field">
+                  <input type="password" id="reg-password" placeholder="••••••••" required>
+                  <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                </div>
+              </div>
+              
+              <div class="field-group">
+                <label for="reg-confirm-password">CONFIRMAR CONTRASEÑA</label>
+                <div class="input-field">
+                  <input type="password" id="reg-confirm-password" placeholder="••••••••" required>
+                  <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                </div>
+              </div>
+              
+              <button type="submit" class="btn-login">REGISTRARSE</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Panel derecho - ESCÁNER DE HUELLA -->
+      <div class="right-panel">
+        <div class="scanner-title">PROCESO DE VERIFICACIÓN</div>
+
+        <div class="fingerprint-scanner">
+          <div class="fingerprint-container" id="fingerprint-container">
+            <i class="fa-solid fa-fingerprint fingerprint-icon"></i>
+            <div class="fingerprint-scan-line"></div>
+          </div>
+          <div class="scanner-status" id="scanner-status">ACTIVANDO VERIFICACIÓN</div>
+          <div class="scanner-progress">
+            <div class="scanner-progress-bar" id="scanner-progress"></div>
+          </div>
+        </div>
+        
+        <!-- Texto de inicialización integrado en el panel del escáner -->
+        <div class="terminal-lines">
+          <div class="terminal-line">> Inicializando módulos de autenticación<span class="cursor"></span></div>
+          <div class="terminal-line">> Cargando protocolos de seguridad<span class="cursor"></span></div>
+          <div class="terminal-line">> Sistema listo para autenticación<span class="cursor"></span></div>
+        </div>
+      </div>
+      
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="system-info">
+          <div class="info-item">
+            <span class="info-label">USUARIO:</span> NO AUTENTICADO
+          </div>
+
+          <div class="info-item">
+            <span class="info-label">SERVIDOR:</span> ENIGMA
+          </div>
+
+          <div class="info-item">
+            <span class="info-label">VERSIÓN:</span> 1.0.0
+          </div>
+        </div>
+
+        <div class="system-info">
+          <div class="info-item">
+            <span class="info-label">HORA DEL SISTEMA:</span> <span id="system-time">--:--:--</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
     <script type="module" src="/src/scripts/main.js"></script>
   </body>
 </html>
