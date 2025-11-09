@@ -1,0 +1,36 @@
+:root {
+	--color-bg: #050506;
+	--color-panel: rgba(10, 15, 25, 0.9);
+	--color-cyan: #00ffff;
+	--color-text: #9efcff;
+	--color-h1: #00e0ff;
+	--color-glow: rgba(0, 255, 255, 0.3);
+	--borde-neon: 0 0 8px var(--color-cyan), inset 0 0 12px rgba(0,255,255,0.2);
+	--fuente: 'Orbitron', sans-serif;
+	--color-alerta: #ff2a6d;
+	--color-exito: #05d9e8;
+	--color-neon-green: #00FF88;
+	--color-electric-blue: #00FFFF;
+	--color-pulsing-red: #FF0066;
+	--color-dark-blue: #05081A;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+body {
+	background-color: var(--color-bg);
+	font-family: var(--fuente);
+	color: var(--color-text);
+	position: relative;
+	overflow: hidden;
+}
