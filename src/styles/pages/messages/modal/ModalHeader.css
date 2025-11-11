@@ -1,0 +1,23 @@
+.modal-header {
+	padding: 20px 30px;
+	border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+	box-shadow: 0 5px 10px -5px var(--color-glow);
+	position: relative;
+	z-index: 2;
+}
+
+.modal-title {
+	color: var(--color-h1);
+	text-shadow: 0 0 10px var(--color-glow);
+	font-weight: 700;
+	letter-spacing: 2px;
+	font-size: 24px;
+	margin-bottom: 5px;
+}
+
+.modal-subtitle {
+	font-family: var(--fuente-secundaria);
+	color: var(--color-text);
+	font-size: 14px;
+	opacity: 0.8;
+}

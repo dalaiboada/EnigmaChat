@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/src/styles/pages/messages/Messages.css">
+
+    <title>Enigma System - Mensajería</title>
+  </head>
+  <body>
+    <div class="grid-background"></div>
+	<div class="scanlines"></div>
+	<div class="particles" id="particles"></div>
+
+    <!-- Barra de navegación lateral -->
+    <div class="nav-sidebar">
+        <div class="profile-pic">L</div>
+        <div class="nav-item active">
+            <i class="fas fa-comments"></i>
+        </div>
+
+        <div class="nav-item" id="settings-btn">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
+
+    <!-- Modal de configuración 2FA -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-container">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+            
+            <div class="close-btn" id="closeModal">
+                <i class="fas fa-times"></i>
+            </div>
+            
+            <div class="modal-header">
+                <h2 class="modal-title">Two-Factor Authentication (2FA)</h2>
+                <p class="modal-subtitle">Configure sus métodos de autenticación de dos factores</p>
+            </div>
+            
+            <div class="modal-content">
+                <!-- Opción 1: Google Authenticator -->
+                <div class="option-group">
+                    <div class="option-item active">
+                        <div class="option-icon">
+                            <i class="fa-solid fa-qrcode"></i>
+                        </div>
+                        <div class="option-content">
+                            <div class="option-title">Google Authenticator</div>
+                            <div class="option-description">
+                                Use Google Authenticator para proteger su cuenta.
+                            </div>
+                        </div>
+                        <div class="option-status active"></div>
+                    </div>
+                </div>
+
+                <!-- Opción 2: Correo -->
+                <div class="option-group">
+                    <div class="option-item">
+                        <div class="option-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="option-content">
+                            <div class="option-title">Correo electrónico</div>
+                            <div class="option-description">
+                                Use su correo electrónico para proteger su cuenta.
+                            </div>
+                        </div>
+                        <div class="option-status"></div>
+                    </div>
+                </div>
+                
+                <!-- Opción 3: Número de teléfono -->
+                <div class="option-group">
+                    <div class="option-item">
+                        <div class="option-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="option-content">
+                            <div class="option-title">Verificación por SMS</div>
+                            <div class="option-description">
+                                Use su número de teléfono mediante un mensaje SMS para proteger su cuenta.
+                            </div>
+                        </div>
+                        <div class="option-status"></div>
+                    </div>
+                </div>
+
+                <!-- Opción 4: Passkeys (Biometrics) -->
+                <div class="option-group">
+                    <div class="option-item">
+                        <div class="option-icon">
+                            <i class="fas fa-fingerprint"></i>
+                        </div>
+                        <div class="option-content">
+                            <div class="option-title">Passkeys (Autenticación biométrica)</div>
+                            <div class="option-description">
+                                Proteja su cuenta usando passkeys, con métodos como huella digital, reconocimiento facial o PIN.
+                            </div>
+                        </div>
+                        <div class="option-status"></div>
+                    </div>
+                </div>
+                
+                <!-- Opción 5: Login Password -->
+                <div class="option-group">
+                    <div class="option-item">
+                        <div class="option-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div class="option-content">
+                            <div class="option-title">Solo contraseña</div>
+                            <div class="option-description">
+                                Utilice solo su contraseña para iniciar sesión.
+                            </div>
+                        </div>
+                        <div class="option-status"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="src/scripts/ui/pages/Messages.js"></script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+@import "./OptionIcon.css";
+@import "./OptionContent.css";
+@import "./OptionStatus.css";
+
+.option-item {
+	background: rgba(0, 0, 0, 0.4);
+	border: 1px solid rgba(0, 255, 255, 0.3);
+	border-radius: 8px;
+	padding: 20px;
+	margin-bottom: 15px;
+	transition: all 0.3s ease;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+.option-item:hover {
+	background: rgba(0, 0, 0, 0.6);
+	border-color: var(--color-cyan);
+	box-shadow: 0 0 10px var(--color-glow);
+}
+
+.option-item.active {
+	background: rgba(0, 255, 255, 0.1);
+	border-color: var(--color-cyan);
+	box-shadow: 0 0 15px var(--color-glow);
+}

@@ -1,0 +1,13 @@
+.profile-pic {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: linear-gradient(45deg, var(--color-cyan), var(--color-electric-blue));
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color-dark-blue);
+	font-weight: bold;
+	font-size: 16px;
+	margin-bottom: 30px;
+}
