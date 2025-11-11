@@ -1,5 +1,5 @@
-@import "Header/Title.css";
-@import "Header/Tab.css";
+@import "@/styles/pages/login/CenterPanel/CTR/Header/Title.css";
+@import "@/styles/pages/login/CenterPanel/CTR/Header/Tab.css";
 
 /* Contenido del CRT - Scrollable para los formularios */
 .crt-content {

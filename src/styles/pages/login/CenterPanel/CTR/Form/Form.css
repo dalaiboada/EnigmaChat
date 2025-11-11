@@ -1,5 +1,5 @@
-@import "FieldGroup.css";
-@import "Button.css";
+@import "@/styles/components/FieldGroup.css";
+@import "@/styles/components/Button.css";
 
 /* Formularios de Iniciar Sesión y Registrarse */
 .form-container {

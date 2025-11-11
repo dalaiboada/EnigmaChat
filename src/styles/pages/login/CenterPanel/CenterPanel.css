@@ -1,4 +1,4 @@
-@import "Corner.css";
+@import "@/styles/components/Corner.css";
 @import "CTR/CTR.css";
 
 /* PANEL CENTRAL - Login / Registrarse */
