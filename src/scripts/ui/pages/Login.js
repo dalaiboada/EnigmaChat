@@ -1,10 +1,10 @@
-import typeEffect from '../components/UserInput.js';
-import ScannerStatus from '../components/ScannerStatus.js';
-import updateSystemTime from '../components/SystemTime.js';
-import switchTab from '../components/Tab.js';
-import generateParticles from '../components/Particles.js';	
+import typeEffect from '@/scripts/ui/components/UserInput.js';
+import ScannerStatus from '@/scripts/ui/components/ScannerStatus.js';
+import updateSystemTime from '@/scripts/ui/components/SystemTime.js';
+import switchTab from '@/scripts/ui/components/Tab.js';
+import generateParticles from '@/scripts/ui/components/Particles.js';	
 
-document.addEventListener('DOMContentLoaded', () => {
+const initApp = () => {
   generateParticles();
   ScannerStatus();
   typeEffect();
@@ -13,4 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Actualizar hora cada segundo
   updateSystemTime();
   setInterval(updateSystemTime, 1000);
-});
+};
+
+initApp();

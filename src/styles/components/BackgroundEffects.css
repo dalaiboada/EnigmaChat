@@ -43,8 +43,8 @@
 
 .particle {
 	position: absolute;
-	width: 1px; 
-	height: 1px;
+	width: 3px; 
+	height: 3px;
 	background: var(--color-cyan);
 	border-radius: 50%;
 	opacity: 0;

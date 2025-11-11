@@ -1,5 +1,5 @@
-@import "Content.css";
-@import "Form/Form.css";
+@import "./Content.css";
+@import "./Form/Form.css";
 
 .crt-container {
 	position: relative;
