@@ -1,0 +1,15 @@
+/* Instrucciones */
+.instructions {
+	text-align: center;
+	margin-bottom: 25px;
+	color: var(--color-text);
+	font-size: 14px;
+	line-height: 1.5;
+	position: relative;
+	z-index: 3;
+}
+
+.instructions strong {
+	color: var(--color-cyan);
+	text-shadow: 0 0 5px var(--color-cyan);
+}

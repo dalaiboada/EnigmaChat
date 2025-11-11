@@ -14,6 +14,7 @@ const handleBackspaceNavigation = (e, index, inputs) => {
 
 export const initQRInput = () => {
   const $codeInputs = document.querySelectorAll('.code-input');
+  $codeInputs[0].focus();
 
   $codeInputs.forEach((input, index, list) => {
     input.addEventListener('input', (e) => handleAutoAdvance(e, index, list));

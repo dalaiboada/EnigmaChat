@@ -1,0 +1,27 @@
+/* Importaciones */
+@import "@/styles/base.css";
+@import "@/styles/components/BackgroundEffects.css";
+@import "@/styles/components/Animations.css";
+@import "@/styles/components/Corner.css";
+
+@import "./PanelTitle.css";
+@import "./Instructions.css";
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Contenedor principal */
+.container {
+	display: flex;
+	width: 90%;
+	max-width: 900px;
+	height: 70%;
+	max-height: 600px;
+	position: relative;
+	z-index: 2;
+	gap: 30px;
+	align-items: center;
+}

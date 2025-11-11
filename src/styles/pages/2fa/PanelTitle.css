@@ -1,0 +1,12 @@
+/* Títulos */
+.panel-title {
+	color: var(--color-h1);
+	text-shadow: 0 0 10px var(--color-glow);
+	font-weight: 700;
+	letter-spacing: 2px;
+	text-align: center;
+	margin-bottom: 25px;
+	font-size: 22px;
+	position: relative;
+	z-index: 3;
+}
