@@ -1,0 +1,6 @@
+@import "./OptionItem/OptionItem.css";
+
+/* Opciones de 2FA */
+.option-group {
+	margin-bottom: 30px;
+}

@@ -1,0 +1,9 @@
+@import "./OptionGroup/OptionGroup.css";
+
+.modal-content {
+	padding: 25px 30px;
+	height: calc(100% - 80px);
+	overflow-y: auto;
+	position: relative;
+	z-index: 2;
+}

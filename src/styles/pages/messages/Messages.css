@@ -2,3 +2,14 @@
 @import "@/styles/components/BackgroundEffects.css";
 @import "@/styles/components/Animations.css";
 
+@import "./Scrollbar.css";
+@import "./NavSidebar/NavSidebar.css";
+@import "./modal/Modal.css";
+
+.messenger-container {
+	display: flex;
+	height: 100vh;
+	width: 100vw;
+	position: relative;
+	z-index: 2;
+}

@@ -7,6 +7,7 @@
 	--color-glow: rgba(0, 255, 255, 0.3);
 	--borde-neon: 0 0 8px var(--color-cyan), inset 0 0 12px rgba(0,255,255,0.2);
 	--fuente: 'Orbitron', sans-serif;
+	--fuente-secundaria: 'Poppins', sans-serif;
 	--color-alerta: #ff2a6d;
 	--color-exito: #05d9e8;
 	--color-neon-green: #00FF88;
