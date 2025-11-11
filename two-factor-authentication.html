@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="styles/pages/2fa/2fa.css">
+	
+	<title>Enigma System - Verificación 2FA</title>
+</head>
+<body>
+	<div class="grid-background"></div>
+	<div class="scanlines"></div>
+	<div class="particles" id="particles"></div>
+	
+	<div class="container">
+
+		<!-- Panel izquierdo -->
+		<div class="qr-panel">
+			<div class="corner corner-tl"></div>
+			<div class="corner corner-tr"></div>
+			<div class="corner corner-bl"></div>
+			<div class="corner corner-br"></div>
+			
+			<h2 class="panel-title">CÓDIGO QR</h2>
+			
+			<div class="instructions">
+				<p>Escanea este código con <strong>Google Authenticator</strong> para configurar la verificación en dos pasos.</p>
+			</div>
+			
+			<!-- Código QR -->
+			<div class="qr-container">
+				<img class="qr-code" src="data:image/png;base64,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" alt="Código QR">
+			</div>
+			
+			<!-- Clave secreta -->
+			<div class="secret-key">
+				<div class="secret-key-label">CLAVE SECRETA</div>
+				<div class="secret-key-value">JBSWY3DJDHFJDHFJDHFJDHFJDHFJHDJFHJFFDFDPEHPK3PXP</div>
+			</div>
+		</div>
+		
+		<!-- Panel derecho -->
+		<div class="form-panel">
+			<div class="corner corner-tl"></div>
+			<div class="corner corner-tr"></div>
+			<div class="corner corner-bl"></div>
+			<div class="corner corner-br"></div>
+			
+			<h2 class="panel-title">VERIFICACIÓN</h2>
+			
+			<div class="instructions">
+				<p>Ingresa el código de 6 dígitos generado por <strong>Google Authenticator</strong> para completar la verificación.</p>
+			</div>
+			
+			<!-- Formulario de verificación -->
+			<form class="verification-form">
+				<div class="field-group">
+					<label for="verification-code">CÓDIGO DE VERIFICACIÓN</label>
+					
+					<!-- Inputs -->
+					<div class="code-inputs">
+						<input type="text" class="code-input" maxlength="1" required>
+						<input type="text" class="code-input" maxlength="1" required>
+						<input type="text" class="code-input" maxlength="1" required>
+						<input type="text" class="code-input" maxlength="1" required>
+						<input type="text" class="code-input" maxlength="1" required>
+						<input type="text" class="code-input" maxlength="1" required>
+					</div>
+				</div>
+				
+				<button type="submit" class="btn">VERIFICAR</button>
+			</form>
+		</div>
+	</div>
+
+  <!-- <script type="module" src="scripts/ui/pages/2fa.js"></script> -->
+</body>
+</html>
