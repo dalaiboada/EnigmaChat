@@ -20,6 +20,7 @@
 	box-shadow: 
 		0 0 5px var(--color-cyan),
 		inset 0 0 3px rgba(0, 0, 0, 0.5);
+	cursor: pointer;
 }
 
 .chats-list::-webkit-scrollbar-thumb:hover,
