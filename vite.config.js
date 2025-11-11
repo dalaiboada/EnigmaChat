@@ -7,6 +7,14 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src')
     }
   },
+  build: {
+    rollupOptions: {
+      input: {
+        main: './index.html',
+        twoFactor: './two-factor-authentication.html'
+      }
+    }
+  },
   css: {
     preprocessorOptions: {
       css: {
