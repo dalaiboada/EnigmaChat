@@ -1,0 +1,38 @@
+@import "@/styles/pages/2fa/FormPanel/VerificationForm/VerificationForm.css";
+
+/* Panel derecho - Formulario */
+.form-panel {
+	flex: 1;
+	background: rgba(10, 15, 25, 0.8);
+	border-radius: 10px;
+	padding: 30px;
+	box-shadow: 
+		0 0 15px var(--color-cyan),
+		inset 0 0 20px rgba(0, 255, 255, 0.1);
+	border: 1px solid var(--color-cyan);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+.form-panel::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: repeating-linear-gradient(
+		0deg,
+		rgba(0, 255, 255, 0.03) 0px,
+		rgba(0, 255, 255, 0.03) 1px,
+		transparent 1px,
+		transparent 2px
+	);
+	pointer-events: none;
+	z-index: 1;
+	animation: scan 8s linear infinite;
+}

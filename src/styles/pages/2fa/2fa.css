@@ -7,6 +7,9 @@
 @import "./PanelTitle.css";
 @import "./Instructions.css";
 
+@import "./FormPanel/FormPanel.css";
+@import "./QRPanel/QRPanel.css";
+
 body {
 	display: flex;
 	justify-content: center;
@@ -24,4 +27,29 @@ body {
 	z-index: 2;
 	gap: 30px;
 	align-items: center;
+}
+
+@media (max-width: 1440px) {
+	.container {
+		max-width: 1000px;
+		height: 80%;
+		gap: 30px;
+	}
+
+	.qr-panel, .form-panel {
+		padding: 20px;
+	}
+
+	.qr-code {
+		width: 150px;
+		height: 150px;
+	}
+
+	.qr-container {
+		max-width: 240px;
+	}
+
+	.secret-key {
+		max-width: 500px;
+	}
 }

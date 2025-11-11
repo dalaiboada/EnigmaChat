@@ -1,0 +1,12 @@
+@import "@/styles/components/FieldGroup.css";
+@import "@/styles/components/Button.css";
+@import "./CodeInputs.css";
+
+/* Formulario de verificación */
+.verification-form {
+	width: 100%;
+	z-index: 3;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
