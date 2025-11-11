@@ -11,7 +11,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: './index.html',
-        twoFactor: './two-factor-authentication.html'
+        twoFactor: './two-factor-authentication.html',
+        messages: './messages.html'
       }
     }
   },
