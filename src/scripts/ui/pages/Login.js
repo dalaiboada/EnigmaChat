@@ -98,7 +98,7 @@ const handleLogin = async (e) => {
       return;
     }
 
-    console.log('Login successful, redirecting to dashboard');
+    console.log('Login successful, redirecting to messages');
     window.location.href = '/messages.html';
   } catch (error) {
     console.error('Login error:', error);
@@ -149,12 +149,12 @@ const handleRegister = async (e) => {
     );
 
     // Handle 2FA if enabled
-    if (loginResult.requires2FA) {
-      return (window.location.href = '/2fa.html');
+    if (loginResult.required2fa) {
+      return (window.location.href = '/two-factor-authentication.html');
     }
 
-    // Redirect to dashboard on successful login
-    window.location.href = '/dashboard.html';
+    // Redirect to messages on successful login
+    window.location.href = '/messages.html';
   } catch (error) {
     console.error('Registration failed:', error);
     let errorMessage =
