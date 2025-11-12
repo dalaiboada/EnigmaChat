@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://localhost:3000/api';
+const API_BASE_URL = 'https://enigmachat-server.proceruss.com/api';
 
 class AuthService {
   constructor() {
@@ -52,18 +52,20 @@ class AuthService {
         }),
       });
 
-      const data = await response.json().catch(() => ({})); // Handle non-JSON responses
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('Failed to parse JSON response:', jsonError);
+        const error = new Error('Invalid server response');
+        error.status = response.status;
+        throw error;
+      }
 
-      /// test
-      console.log('Registration response:', {
-        status: response.status,
-        statusText: response.statusText,
-        data,
-      });
-      ///
       if (!response.ok) {
         const error = new Error(data.message || 'Registration failed');
         error.response = data;
+        error.status = response.status;
         throw error;
       }
 
@@ -71,8 +73,22 @@ class AuthService {
     } catch (error) {
       console.error('Registration error:', {
         message: error.message,
+        status: error.status,
         response: error.response,
       });
+
+      // Enhance the error message for common issues
+      if (error.message.includes('NetworkError')) {
+        error.message =
+          'No se pudo conectar al servidor. Verifica tu conexión a internet.';
+      } else if (error.status === 400) {
+        error.message = 'Datos de registro inválidos';
+      } else if (error.status === 409) {
+        error.message = 'El correo electrónico ya está en uso';
+      } else if (error.status >= 500) {
+        error.message = 'Error del servidor. Por favor, inténtalo más tarde.';
+      }
+
       throw error;
     }
   }
@@ -80,20 +96,42 @@ class AuthService {
   // Login user
   async login(email, password) {
     try {
+      if (!email || !password) {
+        const error = new Error('Email y contraseña son requeridos');
+        error.status = 400;
+        throw error;
+      }
+
+      // Asegurar que el email esté en minúsculas
+      const normalizedEmail = email.toLowerCase().trim();
+
+      console.log('Sending login request with email:', normalizedEmail);
+
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({
+          email: normalizedEmail,
+          password: password,
+        }),
       });
 
-      const data = await response.json().catch(() => ({}));
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('Failed to parse JSON response:', jsonError);
+        const error = new Error('Invalid server response');
+        error.status = response.status;
+        throw error;
+      }
 
       if (!response.ok) {
         const error = new Error(data.message || 'Login failed');
         error.response = data;
+        error.status = response.status;
         throw error;
       }
 
