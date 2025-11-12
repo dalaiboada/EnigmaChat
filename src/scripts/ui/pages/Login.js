@@ -92,14 +92,14 @@ const handleLogin = async (e) => {
     const result = await authService.login(email, password);
     console.log('Login successful, result:', result);
 
-    if (result.requires2FA) {
+    if (result.required2fa) {
       console.log('2FA required, redirecting to 2FA page');
-      window.location.href.push('/two-factor-authentication.html');
+      window.location.href = '/two-factor-authentication.html';
       return;
     }
 
     console.log('Login successful, redirecting to dashboard');
-    window.location.href.push('/messages.html');
+    window.location.href = '/messages.html';
   } catch (error) {
     console.error('Login error:', error);
     let errorMessage = 'Error al iniciar sesión. Intenta de nuevo.';

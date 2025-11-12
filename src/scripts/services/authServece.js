@@ -3,7 +3,7 @@ const API_BASE_URL = 'https://enigmachat-server.proceruss.com/api';
 class AuthService {
   constructor() {
     this.token = localStorage.getItem('authToken') || null;
-    this.temp2FAToken = null;
+    this.temp2faToken = null;
   }
 
   async _fetch(endpoint, options = {}) {
@@ -137,8 +137,8 @@ class AuthService {
 
       // Handle 2FA if required
       if (data.required2fa) {
-        this.temp2FAToken = data.token;
-        return { requires2FA: true, message: data.message };
+        this.temp2faToken = data.token;
+        return { required2fa: true, message: data.message };
       }
 
       // Regular login
@@ -165,7 +165,7 @@ class AuthService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${this.temp2FAToken}`,
+          Authorization: `Bearer ${this.temp2faToken}`,
         },
         body: JSON.stringify({ pin }),
       });
@@ -180,7 +180,7 @@ class AuthService {
 
       if (data.token) {
         this.token = data.token;
-        this.temp2FAToken = null;
+        this.temp2faToken = null;
         localStorage.setItem('authToken', data.token);
         return { user: data.user, token: data.token };
       }
@@ -318,7 +318,7 @@ class AuthService {
   // Logout
   logout() {
     this.token = null;
-    this.temp2FAToken = null;
+    this.temp2faToken = null;
     localStorage.removeItem('authToken');
   }
 
