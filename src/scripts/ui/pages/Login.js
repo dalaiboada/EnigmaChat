@@ -24,29 +24,6 @@ const registerError = document.createElement('div');
 registerError.className = 'error-message';
 registerForm?.appendChild(registerError);
 
-const registerButton = document.getElementById('register-button');
-
-// Función para mostrar/ocultar loading
-const setLoading = (isLoading) => {
-  const buttons = [
-    loginForm?.querySelector('button[type="submit"]'),
-    registerForm?.querySelector('button[type="submit"]'),
-  ].filter(Boolean);
-
-  //const indicators = document.querySelectorAll('');
-
-  buttons.forEach((button) => {
-    if (button) button.disabled = isLoading;
-  });
-
-  //indicators.forEach((indicator) => {
-  //if (indicator) indicator.style.display = isLoading ? 'block' : 'none';
-  //});
-};
-
-// Estado de la aplicación
-let isLoading = false;
-
 // Función para mostrar errores
 const showError = (element, message) => {
   element.textContent = message;
@@ -74,7 +51,6 @@ const handleLogin = async (e) => {
   const password = loginPassword.value;
 
   try {
-    setLoading(true);
     const result = await authService.login(email, password);
 
     if (result.requires2FA) {
@@ -89,8 +65,6 @@ const handleLogin = async (e) => {
       loginError,
       error.message || 'Error al iniciar sesión. Intenta de nuevo.'
     );
-  } finally {
-    setLoading(false);
   }
 };
 
@@ -112,13 +86,9 @@ const handleRegister = async (e) => {
   }
 
   try {
-    setLoading(true);
-
-    // Register the user
     const result = await authService.register(userData);
     console.log('Registration successful:', result);
 
-    // After successful registration, log the user in
     const loginResult = await authService.login(
       userData.email,
       userData.password
@@ -143,29 +113,47 @@ const handleRegister = async (e) => {
   }
 };
 
-//////////////////////
+const initApp = () => {
+  try {
+    // Initialize UI components
+    if (typeof generateParticles === 'function') generateParticles();
+    if (typeof ScannerStatus === 'function') ScannerStatus();
+    if (typeof typeEffect === 'function') typeEffect();
 
-// Inicialización
-document.addEventListener('DOMContentLoaded', () => {
-  // Verificar si el usuario ya está autenticado
-  if (authService.isAuthenticated()) {
-    window.location.href = '/dashboard.html';
-    return;
+    // Set up event listeners first
+    if (loginForm) {
+      loginForm.addEventListener('submit', handleLogin);
+    }
+
+    if (registerForm) {
+      registerForm.addEventListener('submit', handleRegister);
+    }
+
+    // Initialize tabs after event listeners
+    if (typeof switchTab === 'function') switchTab();
+
+    // Initial time update
+    if (typeof updateSystemTime === 'function') {
+      updateSystemTime();
+      // Store interval ID for cleanup
+      const timeUpdateInterval = setInterval(updateSystemTime, 1000);
+
+      // Return cleanup function
+      return () => {
+        clearInterval(timeUpdateInterval);
+      };
+    }
+  } catch (error) {
+    console.error('Error initializing app:', error);
   }
+};
 
-  // Inicializar componentes
-  switchTab();
-  updateSystemTime();
-  generateParticles();
-  ScannerStatus();
-  typeEffect();
+// Initialize and get cleanup function
+const cleanup = initApp();
 
-  // Agregar manejadores de eventos
-  if (loginForm) {
-    loginForm.addEventListener('submit', handleLogin);
-  }
-
-  if (registerForm) {
-    registerForm.addEventListener('submit', handleRegister);
-  }
-});
+// If you're using a module system that supports cleanup
+if (typeof module !== 'undefined' && module.hot) {
+  module.hot.dispose(() => {
+    if (cleanup) cleanup();
+  });
+}
