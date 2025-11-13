@@ -1,0 +1,9 @@
+{
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/two-factor-authentication-login", "dest": "/two-factor-authentication-login.html", "status": 200 },
+    { "src": "/two-factor-authentication", "dest": "/two-factor-authentication.html", "status": 200 },
+    { "src": "/messages", "dest": "/messages.html", "status": 200 },
+    { "src": "/(.*)", "dest": "/index.html", "status": 200 }
+  ]
+}

@@ -93,11 +93,11 @@ const handleLogin = async (e) => {
 
     if (result.required2fa) {
       console.log('2FA required, redirecting to 2FA page');
-      window.location.href = '/two-factor-authentication-login.html';
+      window.location.href = '/two-factor-authentication-login';
     } else {
       console.log('Login successful, redirecting to messages');
       localStorage.setItem('user', JSON.stringify(result.user));
-      window.location.href = '/messages.html';
+      window.location.href = '/messages';
     }
   } catch (error) {
     console.error('Login error:', error);
@@ -152,7 +152,7 @@ const handleRegister = async (e) => {
     localStorage.setItem('user', JSON.stringify(result.user));
 
     console.log('2FA required, redirecting to 2FA page');
-    window.location.href = '/two-factor-authentication.html';
+    window.location.href = '/two-factor-authentication';
 
   } catch (error) {
     console.error('Registration failed:', error);
