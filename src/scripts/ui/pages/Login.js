@@ -96,6 +96,7 @@ const handleLogin = async (e) => {
       window.location.href = '/two-factor-authentication-login.html';
     } else {
       console.log('Login successful, redirecting to messages');
+      localStorage.setItem('user', JSON.stringify(result.user));
       window.location.href = '/messages.html';
     }
   } catch (error) {
@@ -147,6 +148,8 @@ const handleRegister = async (e) => {
     const result = await authService.register(userData);
     console.log('Registration successful:', result);
     console.log(result);
+
+    localStorage.setItem('user', JSON.stringify(result.user));
 
     console.log('2FA required, redirecting to 2FA page');
     window.location.href = '/two-factor-authentication.html';
