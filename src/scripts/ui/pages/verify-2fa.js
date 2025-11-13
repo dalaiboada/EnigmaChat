@@ -55,6 +55,7 @@ const handleSubmit = async (e) => {
     console.log('2FA verification successful:', result);
 
     if (result && result.token) {
+      localStorage.setItem('user', JSON.stringify(result.user));
       window.location.href = '/messages';
     }
   } catch (error) {

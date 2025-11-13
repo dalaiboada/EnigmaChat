@@ -22,40 +22,43 @@
     <div class="scanlines"></div>
     <div class="particles" id="particles"></div>
 
-    <!-- Barra de navegación lateral -->
-    <div class="nav-sidebar">
-      <div class="profile-pic">L</div>
-      <div class="nav-item active">
-        <i class="fas fa-comments"></i>
-      </div>
-
-      <div class="nav-item" id="settings-btn">
-        <i class="fas fa-cog"></i>
-      </div>
-    </div>
-
-    <footer class="footer">
-      <div class="system-info">
-        <div class="info-item">
-          <span class="info-label">USUARIO:</span> <span id="username-info">--</span>
+    <main class="messenger-container">
+      <!-- Barra de navegación lateral -->
+      <aside class="nav-sidebar">
+        <div class="profile-pic">L</div>
+        <div class="nav-item active">
+          <i class="fas fa-comments"></i>
         </div>
-
-        <div class="info-item">
-          <span class="info-label">SERVIDOR:</span> ENIGMA
+  
+        <div class="nav-item" id="settings-btn">
+          <i class="fas fa-cog"></i>
         </div>
-
-        <div class="info-item">
-          <span class="info-label">VERSIÓN:</span> 1.0.0
+      </aside>
+  
+      <section style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+        <div class="system-info">
+          <div class="info-item">
+            <span class="info-label">USUARIO:</span> <span id="username-info">--</span>
+          </div>
+  
+          <div class="info-item">
+            <span class="info-label">SERVIDOR:</span> ENIGMA
+          </div>
+  
+          <div class="info-item">
+            <span class="info-label">VERSIÓN:</span> 1.0.0
+          </div>
         </div>
-      </div>
-
-      <div class="system-info">
-        <div class="info-item">
-          <span class="info-label">HORA DEL SISTEMA:</span>
-          <span id="system-time">--:--:--</span>
+  
+        <div class="system-info">
+          <div class="info-item">
+            <span class="info-label">HORA DEL SISTEMA:</span>
+            <span id="system-time">--:--:--</span>
+          </div>
         </div>
-      </div>
-    </footer>
+      </section>
+    </main>
+
 
     <!-- Modal de configuración 2FA -->
     <div class="modal-overlay" id="modalOverlay">

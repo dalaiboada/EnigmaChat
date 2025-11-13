@@ -149,7 +149,7 @@ const handleRegister = async (e) => {
     console.log('Registration successful:', result);
     console.log(result);
 
-    localStorage.setItem('user', JSON.stringify(result.user));
+    localStorage.setItem('user', JSON.stringify(result));
 
     console.log('2FA required, redirecting to 2FA page');
     window.location.href = '/two-factor-authentication';
