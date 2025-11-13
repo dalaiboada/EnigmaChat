@@ -50,11 +50,11 @@ const handleSubmit = async (e) => {
 
   try {
     setLoading(true);
-    const result = await authService.verify2FA(code);
-    console.log('2FA verification successful:', result);
+    const result = await authService.confirm2FA(code, secretKeyElement.textContent);
+    console.log('2FA setup successful:', result);
 
 
-    if (result && result.token) {
+    if (result) {
       window.location.href = '/messages.html';
     }
   } catch (error) {
@@ -73,7 +73,7 @@ const handleSubmit = async (e) => {
 };
 
 // Initialize the 2FA page
-const init2FA = () => {
+const init2FA = async () => {
   // Initialize QR input handling and particles
   initQRInput(); // Esto manejará la navegación entre inputs
   generateParticles();
@@ -90,6 +90,12 @@ const init2FA = () => {
       handleSubmit();
     }
   });
+
+  // Se genera el QR y se muestra en la página
+  const user2fa = await authService.setup2FA();
+  qrCodeImage.src = user2fa.qrCode;
+  secretKeyElement.textContent = user2fa.secret;
+
 
   console.log('2FA initialized');
 };

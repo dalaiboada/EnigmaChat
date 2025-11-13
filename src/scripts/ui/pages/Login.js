@@ -148,13 +148,9 @@ const handleRegister = async (e) => {
     console.log('Registration successful:', result);
     console.log(result);
 
-    if (result.is2faEnabled) {
-      console.log('2FA required, redirecting to 2FA page');
-      window.location.href = '/two-factor-authentication.html';
-    } else {
-      console.log('Login successful, redirecting to messages');
-      window.location.href = '/messages.html';
-    }
+    console.log('2FA required, redirecting to 2FA page');
+    window.location.href = '/two-factor-authentication.html';
+
   } catch (error) {
     console.error('Registration failed:', error);
     let errorMessage =

@@ -103,7 +103,6 @@ class AuthService {
       }
 
       const data = await response.json();
-      data.is2faEnabled = true;
       return data;
     } catch (jsonError) {
       console.error('Failed to parse JSON response:', jsonError);
@@ -171,8 +170,11 @@ class AuthService {
 
   // Setup 2FA
   async setup2FA() {
+    let response;
+    let data;
+    
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/setup-2fa`, {
+      response = await fetch(`${API_BASE_URL}/auth/setup-2fa`, {
         credentials: 'include',
         method: 'POST',
         headers: {
@@ -180,22 +182,28 @@ class AuthService {
         },
       });
 
+      // Intentar parsear la respuesta JSON
       try {
-        const data = await response.json();
-        console.log(data);
+        data = await response.json();
+        console.log('2FA setup response:', data);
       } catch (jsonError) {
         console.error('Failed to parse JSON response:', jsonError);
-        const error = new Error('Invalid server response');
-        error.status = response.status;
+        const error = new Error('Invalid server response format');
+        error.status = response.status || 500;
         throw error;
       }
 
+      // Verificar si la respuesta fue exitosa
       if (!response.ok) {
-        const error = new Error(data.message || '2FA setup failed');
+        const errorMessage = data?.message || '2FA setup failed';
+        console.error('2FA setup failed:', errorMessage);
+        const error = new Error(errorMessage);
+        error.status = response.status;
         error.response = data;
         throw error;
       }
 
+      // Si todo salió bien, devolver los datos
       return data;
     } catch (jsonError) {
       console.error('Failed to parse JSON response:', jsonError);
@@ -207,111 +215,163 @@ class AuthService {
 
   // Confirm 2FA setup
   async confirm2FA(pin, secret) {
+    let response;
+    let data;
+    
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/confirm-2fa`, {
+      response = await fetch(`${API_BASE_URL}/auth/confirm-2fa`, {
         credentials: 'include',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${this.token}`,
         },
         body: JSON.stringify({ pin, secret }),
       });
 
+      // Intentar parsear la respuesta JSON
       try {
-        const data = await response.json();
-        console.log(data);
+        data = await response.json();
+        console.log('2FA confirmation response:', data);
       } catch (jsonError) {
         console.error('Failed to parse JSON response:', jsonError);
-        const error = new Error('Invalid server response');
-        error.status = response.status;
+        const error = new Error('Invalid server response format');
+        error.status = response.status || 500;
         throw error;
       }
 
+      // Verificar si la respuesta fue exitosa
       if (!response.ok) {
-        const error = new Error(data.message || '2FA confirmation failed');
+        const errorMessage = data?.message || '2FA confirmation failed';
+        console.error('2FA confirmation failed:', errorMessage);
+        const error = new Error(errorMessage);
+        error.status = response.status;
         error.response = data;
         throw error;
       }
 
+      // Si todo salió bien, devolver los datos
       return data;
-    } catch (jsonError) {
-      console.error('Failed to parse JSON response:', jsonError);
-      const error = new Error('Invalid server response');
-      error.status = response.status;
-      throw error;
+    } catch (error) {
+      console.error('Error in confirm2FA:', error);
+      // Si el error ya tiene un status, lanzarlo tal cual
+      if (error.status) {
+        throw error;
+      }
+      // Si no tiene status, crear un nuevo error con la información disponible
+      const newError = new Error(error.message || 'Error confirming 2FA setup');
+      newError.status = error.status || (response ? response.status : 500);
+      newError.response = data;
+      throw newError;
     }
   }
 
   // Disable 2FA
   async disable2FA() {
+    let response;
+    let data;
+    
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/disable-2fa`, {
+      response = await fetch(`${API_BASE_URL}/auth/disable-2fa`, {
         credentials: 'include',
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${this.token}`,
+          'Content-Type': 'application/json',
+          ...(this.token && { Authorization: `Bearer ${this.token}` }),
         },
       });
 
+      // Intentar parsear la respuesta JSON
       try {
-        const data = await response.json();
-        console.log(data);
+        data = await response.json();
+        console.log('2FA disable response:', data);
       } catch (jsonError) {
         console.error('Failed to parse JSON response:', jsonError);
-        const error = new Error('Invalid server response');
-        error.status = response.status;
+        const error = new Error('Invalid server response format');
+        error.status = response.status || 500;
         throw error;
       }
 
+      // Verificar si la respuesta fue exitosa
       if (!response.ok) {
-        const error = new Error(data.message || 'Failed to disable 2FA');
+        const errorMessage = data?.message || 'Failed to disable 2FA';
+        console.error('2FA disable failed:', errorMessage);
+        const error = new Error(errorMessage);
+        error.status = response.status;
         error.response = data;
         throw error;
       }
 
+      // Si todo salió bien, devolver los datos
       return data;
     } catch (error) {
-      throw error;
+      console.error('Error in disable2FA:', error);
+      // Si el error ya tiene un status, lanzarlo tal cual
+      if (error.status) {
+        throw error;
+      }
+      // Si no tiene status, crear un nuevo error con la información disponible
+      const newError = new Error(error.message || 'Error disabling 2FA');
+      newError.status = error.status || (response ? response.status : 500);
+      newError.response = data;
+      throw newError;
     }
   }
 
   // Search users
   async searchUsers({ username, email }) {
+    let response;
+    let data;
+    
     try {
       const params = new URLSearchParams();
       if (username) params.append('username', username);
       if (email) params.append('email', email);
 
-      const response = await fetch(
+      response = await fetch(
         `${API_BASE_URL}/users?${params.toString()}`,
         {
           credentials: 'include',
           headers: {
-            Authorization: `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+            ...(this.token && { Authorization: `Bearer ${this.token}` }),
           },
         }
       );
 
+      // Intentar parsear la respuesta JSON
       try {
-        const data = await response.json();
-        console.log(data);
+        data = await response.json();
+        console.log('User search response:', data);
       } catch (jsonError) {
         console.error('Failed to parse JSON response:', jsonError);
-        const error = new Error('Invalid server response');
-        error.status = response.status;
+        const error = new Error('Invalid server response format');
+        error.status = response.status || 500;
         throw error;
       }
 
+      // Verificar si la respuesta fue exitosa
       if (!response.ok) {
-        const error = new Error(data.message || 'User search failed');
+        const errorMessage = data?.message || 'User search failed';
+        console.error('User search failed:', errorMessage);
+        const error = new Error(errorMessage);
+        error.status = response.status;
         error.response = data;
         throw error;
       }
 
+      // Si todo salió bien, devolver los datos
       return data;
     } catch (error) {
-      throw error;
+      console.error('Error in searchUsers:', error);
+      // Si el error ya tiene un status, lanzarlo tal cual
+      if (error.status) {
+        throw error;
+      }
+      // Si no tiene status, crear un nuevo error con la información disponible
+      const newError = new Error(error.message || 'Error searching users');
+      newError.status = error.status || (response ? response.status : 500);
+      newError.response = data;
+      throw newError;
     }
   }
 
