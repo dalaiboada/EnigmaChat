@@ -55,7 +55,7 @@ const handleSubmit = async (e) => {
     console.log('2FA verification successful:', result);
 
     if (result && result.token) {
-      window.location.href = '/messages.html';
+      window.location.href = '/messages';
     }
   } catch (error) {
     console.error('Verification error:', error);

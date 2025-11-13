@@ -55,7 +55,7 @@ const handleSubmit = async (e) => {
 
 
     if (result) {
-      window.location.href = '/messages.html';
+      window.location.href = '/messages';
     }
   } catch (error) {
     console.error('Verification error:', error);
