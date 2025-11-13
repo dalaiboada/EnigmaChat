@@ -57,6 +57,18 @@ const clearError = (element) => {
   }
 };
 
+// Funcion para validar login
+const validateLogin = (email, password) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && password.length >= 6;
+};
+
+// Funcion para validar registro
+const validateRegister = (email, password, confirmPassword) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && password === confirmPassword;
+};
+
 // login handler
 const handleLogin = async (e) => {
   e.preventDefault();
@@ -79,9 +91,9 @@ const handleLogin = async (e) => {
 
     const result = await authService.login(loginEmail, loginPassword);
 
-    if (result.user.is2faEnabled) {
+    if (result.required2fa) {
       console.log('2FA required, redirecting to 2FA page');
-      window.location.href = '/two-factor-authentication.html';
+      window.location.href = '/two-factor-authentication-login.html';
     } else {
       console.log('Login successful, redirecting to messages');
       window.location.href = '/messages.html';
@@ -135,7 +147,6 @@ const handleRegister = async (e) => {
     const result = await authService.register(userData);
     console.log('Registration successful:', result);
     console.log(result);
-    debugger;
 
     if (result.is2faEnabled) {
       console.log('2FA required, redirecting to 2FA page');
@@ -205,17 +216,6 @@ const initApp = () => {
   setInterval(updateSystemTime, 1000);
 };
 
-const validateLogin = (email, password) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email) && password.length >= 6;
-};
-
-const validateRegister = (email, password, confirmPassword) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email) && password === confirmPassword;
-};
-
-// Initialize and get cleanup function
 const cleanup = initApp();
 
 // If you're using a module system that supports cleanup

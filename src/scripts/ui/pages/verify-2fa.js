@@ -50,10 +50,9 @@ const handleSubmit = async (e) => {
 
   try {
     setLoading(true);
+    console.log(code)
     const result = await authService.verify2FA(code);
     console.log('2FA verification successful:', result);
-
-    debugger;
 
     if (result && result.token) {
       window.location.href = '/messages.html';
