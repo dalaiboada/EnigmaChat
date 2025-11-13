@@ -3,7 +3,7 @@ import ScannerStatus from '@/scripts/ui/components/ScannerStatus.js';
 import updateSystemTime from '@/scripts/ui/components/SystemTime.js';
 import switchTab from '@/scripts/ui/components/Tab.js';
 import generateParticles from '@/scripts/ui/components/Particles.js';
-import { authService } from '../../services/authServece.js';
+import { authService } from '@/scripts/services/authServece.js';
 
 // Loading state management
 const setLoading = (isLoading) => {
@@ -78,15 +78,12 @@ const handleLogin = async (e) => {
     console.log('Attempting login with:', { loginEmail });
 
     const result = await authService.login(loginEmail, loginPassword);
-    console.log('Login successful, result:', result);
 
-    if (result.required2fa) {
+    if (result.user.is2faEnabled) {
       console.log('2FA required, redirecting to 2FA page');
       window.location.href = '/two-factor-authentication.html';
-      return;
     } else {
       console.log('Login successful, redirecting to messages');
-      debugger;
       window.location.href = '/messages.html';
     }
   } catch (error) {
@@ -137,9 +134,16 @@ const handleRegister = async (e) => {
     setLoading(true);
     const result = await authService.register(userData);
     console.log('Registration successful:', result);
-    console.log('2FA required, redirecting to 2FA page');
-    window.location.href = '/two-factor-authentication.html';
+    console.log(result);
     debugger;
+
+    if (result.is2faEnabled) {
+      console.log('2FA required, redirecting to 2FA page');
+      window.location.href = '/two-factor-authentication.html';
+    } else {
+      console.log('Login successful, redirecting to messages');
+      window.location.href = '/messages.html';
+    }
   } catch (error) {
     console.error('Registration failed:', error);
     let errorMessage =

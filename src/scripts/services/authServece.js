@@ -56,38 +56,19 @@ class AuthService {
         }),
       });
 
-      let data;
-      try {
-        data = await response.json();
-      } catch (jsonError) {
-        console.error('Failed to parse JSON response:', jsonError);
-        const error = new Error('Invalid server response');
-        error.status = response.status;
-        throw error;
-      }
-
       if (!response.ok) {
         const error = new Error(data.message || 'Login failed');
-        error.response = data;
         error.status = response.status;
         throw error;
       }
-
-      // Handle 2FA if required
-      if (data.required2fa) {
-        this.temp2faToken = data.token;
-        return { required2fa: true, message: data.message };
-      }
-
-      // Regular login
-      if (data.token) {
-        this.token = data.token;
-        localStorage.setItem('authToken', data.token);
-        return { user: data.user, token: data.token };
-      }
-
-      throw new Error('Invalid server response');
-    } catch (error) {
+      const data = await response.json();
+      console.log(data);
+      debugger;
+      return data;
+    } catch (jsonError) {
+      console.error('Failed to parse JSON response:', jsonError);
+      const error = new Error('Invalid server response');
+      error.status = response.status;
       throw error;
     }
   }
@@ -107,38 +88,19 @@ class AuthService {
         }),
       });
 
-      let data;
-      try {
-        data = await response.json();
-      } catch (jsonError) {
-        console.error('Failed to parse JSON response:', jsonError);
-        const error = new Error('Invalid server response');
-        error.status = response.status;
-        throw error;
-      }
-
       if (!response.ok) {
         const error = new Error(data.message || 'Registration failed');
-        error.response = data;
         error.status = response.status;
         throw error;
       }
 
+      const data = await response.json();
+      data.is2faEnabled = true;
       return data;
-    } catch (error) {
-      throw error;
-
-      if (error.message.includes('NetworkError')) {
-        error.message =
-          'No se pudo conectar al servidor. Verifica tu conexión a internet.';
-      } else if (error.status === 400) {
-        error.message = 'Datos de registro inválidos';
-      } else if (error.status === 409) {
-        error.message = 'El correo electrónico ya está en uso';
-      } else if (error.status >= 500) {
-        error.message = 'Error del servidor. Por favor, inténtalo más tarde.';
-      }
-
+    } catch (jsonError) {
+      console.error('Failed to parse JSON response:', jsonError);
+      const error = new Error('Invalid server response');
+      error.status = response.status;
       throw error;
     }
   }
@@ -150,16 +112,24 @@ class AuthService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${this.temp2faToken}`,
         },
         body: JSON.stringify({ pin }),
       });
 
-      const data = await response.json().catch(() => ({}));
+      try {
+        const data = await response.json();
+        console.log(data);
+        debugger;
+      } catch (jsonError) {
+        console.error('Failed to parse JSON response:', jsonError);
+        const error = new Error('Invalid server response');
+        error.status = response.status;
+        throw error;
+      }
 
       if (!response.ok) {
         const error = new Error(data.message || '2FA verification failed');
-        error.response = data;
+        error.status = response.status;
         throw error;
       }
 
@@ -171,7 +141,10 @@ class AuthService {
       }
 
       throw new Error('Invalid server response');
-    } catch (error) {
+    } catch (jsonError) {
+      console.error('Failed to parse JSON response:', jsonError);
+      const error = new Error('Invalid server response');
+      error.status = response.status;
       throw error;
     }
   }
@@ -182,11 +155,20 @@ class AuthService {
       const response = await fetch(`${API_BASE_URL}/auth/setup-2fa`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${this.token}`,
+          'Content-Type': 'application/json',
         },
       });
 
-      const data = await response.json().catch(() => ({}));
+      try {
+        const data = await response.json();
+        console.log(data);
+        debugger;
+      } catch (jsonError) {
+        console.error('Failed to parse JSON response:', jsonError);
+        const error = new Error('Invalid server response');
+        error.status = response.status;
+        throw error;
+      }
 
       if (!response.ok) {
         const error = new Error(data.message || '2FA setup failed');
@@ -195,7 +177,10 @@ class AuthService {
       }
 
       return data;
-    } catch (error) {
+    } catch (jsonError) {
+      console.error('Failed to parse JSON response:', jsonError);
+      const error = new Error('Invalid server response');
+      error.status = response.status;
       throw error;
     }
   }
@@ -212,7 +197,16 @@ class AuthService {
         body: JSON.stringify({ pin, secret }),
       });
 
-      const data = await response.json().catch(() => ({}));
+      try {
+        const data = await response.json();
+        console.log(data);
+        debugger;
+      } catch (jsonError) {
+        console.error('Failed to parse JSON response:', jsonError);
+        const error = new Error('Invalid server response');
+        error.status = response.status;
+        throw error;
+      }
 
       if (!response.ok) {
         const error = new Error(data.message || '2FA confirmation failed');
@@ -221,7 +215,10 @@ class AuthService {
       }
 
       return data;
-    } catch (error) {
+    } catch (jsonError) {
+      console.error('Failed to parse JSON response:', jsonError);
+      const error = new Error('Invalid server response');
+      error.status = response.status;
       throw error;
     }
   }
@@ -236,7 +233,16 @@ class AuthService {
         },
       });
 
-      const data = await response.json().catch(() => ({}));
+      try {
+        const data = await response.json();
+        console.log(data);
+        debugger;
+      } catch (jsonError) {
+        console.error('Failed to parse JSON response:', jsonError);
+        const error = new Error('Invalid server response');
+        error.status = response.status;
+        throw error;
+      }
 
       if (!response.ok) {
         const error = new Error(data.message || 'Failed to disable 2FA');
@@ -266,7 +272,16 @@ class AuthService {
         }
       );
 
-      const data = await response.json().catch(() => ({}));
+      try {
+        const data = await response.json();
+        console.log(data);
+        debugger;
+      } catch (jsonError) {
+        console.error('Failed to parse JSON response:', jsonError);
+        const error = new Error('Invalid server response');
+        error.status = response.status;
+        throw error;
+      }
 
       if (!response.ok) {
         const error = new Error(data.message || 'User search failed');

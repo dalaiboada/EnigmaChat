@@ -1,170 +1,101 @@
 import generateParticles from '@/scripts/ui/components/Particles.js';
 import { initQRInput } from '@/scripts/ui/components/QRInput.js';
-import { authService } from '../../services/authServece.js';
+import { authService } from '@/scripts/services/authServece.js';
 
-// Referencias a los elementos del DOM
-const verifyForm = document.getElementById('verify-2fa-form');
-const pinInputs = document.querySelectorAll('.pin-input');
-const verifyButton = document.getElementById('verify-button');
-const loadingIndicator = document.getElementById('verify-loading');
-const errorElement = document.getElementById('verify-error');
-const resendButton = document.getElementById('resend-code');
+// DOM Elements
+const verificationForm = document.querySelector('.verification-form');
+const qrCodeImage = document.querySelector('.qr-code');
+const secretKeyElement = document.querySelector('.secret-key-value');
 
-// Estado de la aplicación
-let isLoading = false;
+const errorElement = document.createElement('div');
+errorElement.className = 'error-message';
+verificationForm?.insertBefore(errorElement, verificationForm.firstChild);
 
-// Funciones de utilidad
+// Utility functions
 const showError = (message) => {
-  if (errorElement) {
-    errorElement.textContent = message;
-    errorElement.style.display = 'block';
-    setTimeout(() => {
-      errorElement.style.display = 'none';
-    }, 5000);
+  errorElement.textContent = message;
+  errorElement.style.display = 'block';
+  setTimeout(() => {
+    errorElement.style.display = 'none';
+  }, 5000);
+};
+
+const setLoading = (isLoading) => {
+  const submitButton = verificationForm?.querySelector('button[type="submit"]');
+  if (submitButton) {
+    submitButton.disabled = isLoading;
+    submitButton.innerHTML = isLoading
+      ? '<span class="spinner"></span> Verificando...'
+      : 'VERIFICAR';
   }
 };
 
-const setLoading = (loading) => {
-  isLoading = loading;
-  if (verifyButton) verifyButton.disabled = loading;
-  if (loadingIndicator) {
-    loadingIndicator.style.display = loading ? 'block' : 'none';
-  }
-  if (resendButton) resendButton.disabled = loading;
-};
-
-// Manejar la entrada del código PIN
-const handlePinInput = (e) => {
-  const input = e.target;
-  const nextInput = input.nextElementSibling;
-
-  // Solo permitir números
-  input.value = input.value.replace(/[^0-9]/g, '');
-
-  // Mover al siguiente campo si se ingresó un número
-  if (input.value && nextInput && nextInput.classList.contains('pin-input')) {
-    nextInput.focus();
-  }
-};
-
-// Manejar la tecla de retroceso
-const handleBackspace = (e) => {
-  const input = e.target;
-
-  if (e.key === 'Backspace' && !input.value) {
-    const prevInput = input.previousElementSibling;
-    if (prevInput && prevInput.classList.contains('pin-input')) {
-      prevInput.focus();
-    }
-  }
-};
-
-// Obtener el código PIN completo
-const getPinCode = () => {
-  return Array.from(pinInputs)
+// Get complete verification code
+const getVerificationCode = () => {
+  const codeInputs = document.querySelectorAll('.code-input');
+  return Array.from(codeInputs)
     .map((input) => input.value)
     .join('');
 };
 
-// Manejar el envío del formulario
+// Handle form submission
 const handleSubmit = async (e) => {
-  e.preventDefault();
+  if (e) e.preventDefault();
 
-  const pin = getPinCode();
-
-  if (pin.length !== 6) {
-    showError('Por favor, ingresa el código de 6 dígitos');
+  const code = getVerificationCode();
+  if (code.length !== 6) {
+    showError('Por favor ingresa el código de 6 dígitos');
     return;
   }
 
   try {
     setLoading(true);
-    await authService.verify2FA(pin);
+    const result = await authService.verify2FA(code);
+    console.log('2FA verification successful:', result);
 
-    // Redirigir al dashboard después de la verificación exitosa
-    window.location.href = '/dashboard.html';
+    debugger;
+
+    if (result && result.token) {
+      window.location.href = '/messages.html';
+    }
   } catch (error) {
-    console.error('2FA verification error:', error);
+    console.error('Verification error:', error);
     showError(error.message || 'Código inválido. Intenta de nuevo.');
 
-    // Limpiar los campos de entrada en caso de error
-    pinInputs.forEach((input) => {
+    // Clear inputs on error
+    const codeInputs = document.querySelectorAll('.code-input');
+    codeInputs.forEach((input) => {
       input.value = '';
     });
-    if (pinInputs[0]) pinInputs[0].focus();
+    if (codeInputs[0]) codeInputs[0].focus();
   } finally {
     setLoading(false);
   }
 };
 
-// Manejar el reenvío del código
-const handleResendCode = async () => {
-  try {
-    setLoading(true);
-    // Aquí puedes implementar la lógica para reenviar el código 2FA
-    // Por ejemplo, podrías hacer una petición al backend para reenviar el código
-    showError('Se ha enviado un nuevo código de verificación');
-  } catch (error) {
-    console.error('Error al reenviar el código:', error);
-    showError('Error al reenviar el código. Intenta de nuevo.');
-  } finally {
-    setLoading(false);
-  }
-};
-
-// Inicializar la página 2FA
+// Initialize the 2FA page
 const init2FA = () => {
-  // Verificar si hay una sesión de 2FA activa
-  if (!authService.temp2FAToken) {
-    window.location.href = '/login.html';
-    return;
-  }
-
-  // Inicializar componentes de UI
+  // Initialize QR input handling and particles
+  initQRInput(); // Esto manejará la navegación entre inputs
   generateParticles();
-  initQRInput();
 
-  // Configurar manejadores de eventos
-  if (verifyForm) {
-    verifyForm.addEventListener('submit', handleSubmit);
+  // Set up form submission
+  if (verificationForm) {
+    verificationForm.addEventListener('submit', handleSubmit);
   }
 
-  if (resendButton) {
-    resendButton.addEventListener('click', handleResendCode);
-  }
-
-  // Configurar los campos de entrada del PIN
-  pinInputs.forEach((input, index) => {
-    input.addEventListener('input', handlePinInput);
-    input.addEventListener('keydown', handleBackspace);
-
-    // Permitir pegar el código completo
-    input.addEventListener('paste', (e) => {
-      e.preventDefault();
-      const pasteData = e.clipboardData.getData('text');
-      const pasteDigits = pasteData.replace(/[^0-9]/g, '').split('');
-
-      if (pasteDigits.length === 6) {
-        pinInputs.forEach((input, i) => {
-          if (pasteDigits[i]) {
-            input.value = pasteDigits[i];
-          }
-        });
-        // Enviar automáticamente si se pegaron 6 dígitos
-        if (verifyForm) {
-          verifyForm.dispatchEvent(new Event('submit'));
-        }
-      }
-    });
+  // Auto-submit when all fields are filled
+  const codeInputs = document.querySelectorAll('.code-input');
+  codeInputs[codeInputs.length - 1]?.addEventListener('input', () => {
+    if (getVerificationCode().length === 6) {
+      handleSubmit();
+    }
   });
 
-  // Enfocar el primer campo de entrada
-  if (pinInputs[0]) {
-    pinInputs[0].focus();
-  }
+  console.log('2FA initialized');
 };
 
-// Iniciar la verificación 2FA cuando el DOM esté listo
+// Initialize when DOM is loaded
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init2FA);
 } else {
