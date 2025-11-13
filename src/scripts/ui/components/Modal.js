@@ -1,3 +1,5 @@
+import { authService } from '@/scripts/services/authServece.js';
+
 const $modalOverlay = document.getElementById('modalOverlay');
 const $settingsBtn = document.getElementById('settings-btn');
 const $closeModalBtn = document.getElementById('closeModal');
@@ -5,8 +7,12 @@ const $closeModalBtn = document.getElementById('closeModal');
 const $optionStatuses = document.querySelectorAll('.option-status');
 const $optionItems = document.querySelectorAll('.option-item');
 
-const closeModal = () => { $modalOverlay.classList.remove('active'); };
-const openModal = () => { $modalOverlay.classList.add('active'); };
+const closeModal = () => {
+  $modalOverlay.classList.remove('active');
+};
+const openModal = () => {
+  $modalOverlay.classList.add('active');
+};
 
 // Añadir o quitar la clase 'active'
 const toggleOptionState = (status, item) => {
@@ -20,13 +26,14 @@ const attachModalListeners = () => {
   $closeModalBtn.addEventListener('click', closeModal);
 
   // Cerrar cuando se clickee fuera del modal
-  $modalOverlay.addEventListener('click', e => {
+  $modalOverlay.addEventListener('click', (e) => {
     if (e.target === $modalOverlay) closeModal();
   });
 
   // Cerrar con la tecla Escape
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && $modalOverlay.classList.contains('active')) closeModal();
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && $modalOverlay.classList.contains('active'))
+      closeModal();
   });
 };
 
@@ -34,7 +41,7 @@ const attachModalListeners = () => {
 const attachOptionListeners = () => {
   // Acivar y desactivar al presionar el indicador
   $optionStatuses.forEach((status, index) => {
-    status.addEventListener('click', e => {
+    status.addEventListener('click', (e) => {
       e.stopPropagation();
       toggleOptionState(status, $optionItems[index]);
     });
