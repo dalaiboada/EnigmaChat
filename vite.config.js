@@ -12,6 +12,7 @@ export default defineConfig({
       input: {
         main: './index.html',
         twoFactor: './two-factor-authentication.html',
+        twoFactorLogin: './two-factor-authentication-login.html',
         messages: './messages.html'
       }
     }
