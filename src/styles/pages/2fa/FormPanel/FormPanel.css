@@ -16,6 +16,7 @@
 	height: 100%;
 	position: relative;
 	overflow: hidden;
+  max-width: 500px;
 }
 
 .form-panel::before {
