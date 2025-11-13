@@ -27,21 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Referencias a los elementos del DOM
+// login form
 const loginForm = document.getElementById('login-form');
-const loginEmail = document.getElementById('usuario');
-const loginPassword = document.getElementById('contrasena');
-
 const loginError = document.createElement('div');
 loginError.className = 'error-message';
 loginForm?.appendChild(loginError);
 
-// Referencias al formulario de registro
+// register form
 const registerForm = document.getElementById('register-form');
-const registerName = document.getElementById('reg-username');
-const registerEmail = document.getElementById('reg-email');
-const registerPassword = document.getElementById('reg-password');
-const registerConfirmPassword = document.getElementById('reg-confirm-password');
 const registerError = document.createElement('div');
 registerError.className = 'error-message';
 registerForm?.appendChild(registerError);
@@ -64,46 +57,41 @@ const clearError = (element) => {
   }
 };
 
-// Manejador de inicio de sesión
+// login handler
 const handleLogin = async (e) => {
   e.preventDefault();
   clearError(loginError);
 
-  const email = loginEmail.value.trim();
-  const password = loginPassword.value;
+  const loginEmail = document.getElementById('usuario').value.trim();
+  const loginPassword = document.getElementById('contrasena').value.trim();
 
-  // Validar formato de email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
+  // Validate login
+  if (!validateLogin(loginEmail, loginPassword)) {
     return showError(
       loginError,
-      'Por favor ingresa un correo electrónico válido'
+      'Por favor ingresa un correo electrónico válido y una contraseña'
     );
-  }
-
-  if (!password) {
-    return showError(loginError, 'Por favor ingresa tu contraseña');
   }
 
   try {
     setLoading(true);
-    console.log('Attempting login with:', { email });
+    console.log('Attempting login with:', { loginEmail });
 
-    const result = await authService.login(email, password);
+    const result = await authService.login(loginEmail, loginPassword);
     console.log('Login successful, result:', result);
 
     if (result.required2fa) {
       console.log('2FA required, redirecting to 2FA page');
       window.location.href = '/two-factor-authentication.html';
       return;
+    } else {
+      console.log('Login successful, redirecting to messages');
+      debugger;
+      window.location.href = '/messages.html';
     }
-
-    console.log('Login successful, redirecting to messages');
-    window.location.href = '/messages.html';
   } catch (error) {
     console.error('Login error:', error);
     let errorMessage = 'Error al iniciar sesión. Intenta de nuevo.';
-
     if (error.response) {
       if (error.response.message) {
         errorMessage = error.response.message;
@@ -113,48 +101,45 @@ const handleLogin = async (e) => {
     } else if (error.message) {
       errorMessage = error.message;
     }
-
     showError(loginError, errorMessage);
   } finally {
     setLoading(false);
   }
 };
 
-// Manejador de registro
+// register handler
 const handleRegister = async (e) => {
   e.preventDefault();
   clearError(registerError);
 
   const userData = {
-    username: registerName.value.trim(),
-    email: registerEmail.value.trim(),
-    password: registerPassword.value,
-    confirmPassword: registerConfirmPassword.value,
+    username: document.getElementById('reg-username').value.trim(),
+    email: document.getElementById('reg-email').value.trim(),
+    password: document.getElementById('reg-password').value,
+    confirmPassword: document.getElementById('reg-confirm-password').value,
   };
 
-  // Client-side validation
-  if (userData.password !== userData.confirmPassword) {
-    return showError(registerError, 'Las contraseñas no coinciden');
+  // Validate register
+  if (
+    !validateRegister(
+      userData.email,
+      userData.password,
+      userData.confirmPassword
+    )
+  ) {
+    return showError(
+      registerError,
+      'Por favor ingresa un correo electrónico válido y una contraseña'
+    );
   }
 
   try {
     setLoading(true);
     const result = await authService.register(userData);
     console.log('Registration successful:', result);
-
-    // Auto-login after registration
-    const loginResult = await authService.login(
-      userData.email,
-      userData.password
-    );
-
-    // Handle 2FA if enabled
-    if (loginResult.required2fa) {
-      return (window.location.href = '/two-factor-authentication.html');
-    }
-
-    // Redirect to messages on successful login
-    window.location.href = '/messages.html';
+    console.log('2FA required, redirecting to 2FA page');
+    window.location.href = '/two-factor-authentication.html';
+    debugger;
   } catch (error) {
     console.error('Registration failed:', error);
     let errorMessage =
@@ -210,6 +195,20 @@ const initApp = () => {
   } catch (error) {
     console.error('Error initializing app:', error);
   }
+
+  // Actualizar hora cada segundo
+  updateSystemTime();
+  setInterval(updateSystemTime, 1000);
+};
+
+const validateLogin = (email, password) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && password.length >= 6;
+};
+
+const validateRegister = (email, password, confirmPassword) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && password === confirmPassword;
 };
 
 // Initialize and get cleanup function

@@ -36,62 +36,6 @@ class AuthService {
     return data;
   }
 
-  // Register a new user
-  async register(userData) {
-    try {
-      const response = await fetch(`${API_BASE_URL}/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        }),
-      });
-
-      let data;
-      try {
-        data = await response.json();
-      } catch (jsonError) {
-        console.error('Failed to parse JSON response:', jsonError);
-        const error = new Error('Invalid server response');
-        error.status = response.status;
-        throw error;
-      }
-
-      if (!response.ok) {
-        const error = new Error(data.message || 'Registration failed');
-        error.response = data;
-        error.status = response.status;
-        throw error;
-      }
-
-      return data;
-    } catch (error) {
-      console.error('Registration error:', {
-        message: error.message,
-        status: error.status,
-        response: error.response,
-      });
-
-      // Enhance the error message for common issues
-      if (error.message.includes('NetworkError')) {
-        error.message =
-          'No se pudo conectar al servidor. Verifica tu conexión a internet.';
-      } else if (error.status === 400) {
-        error.message = 'Datos de registro inválidos';
-      } else if (error.status === 409) {
-        error.message = 'El correo electrónico ya está en uso';
-      } else if (error.status >= 500) {
-        error.message = 'Error del servidor. Por favor, inténtalo más tarde.';
-      }
-
-      throw error;
-    }
-  }
-
   // Login user
   async login(email, password) {
     try {
@@ -101,18 +45,13 @@ class AuthService {
         throw error;
       }
 
-      // Asegurar que el email esté en minúsculas
-      const normalizedEmail = email.toLowerCase().trim();
-
-      console.log('Sending login request with email:', normalizedEmail);
-
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: normalizedEmail,
+          email: email,
           password: password,
         }),
       });
@@ -149,10 +88,57 @@ class AuthService {
 
       throw new Error('Invalid server response');
     } catch (error) {
-      console.error('Login error:', {
-        message: error.message,
-        response: error.response,
+      throw error;
+    }
+  }
+
+  // Register a new user
+  async register(userData) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: userData.username,
+          email: userData.email,
+          password: userData.password,
+        }),
       });
+
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('Failed to parse JSON response:', jsonError);
+        const error = new Error('Invalid server response');
+        error.status = response.status;
+        throw error;
+      }
+
+      if (!response.ok) {
+        const error = new Error(data.message || 'Registration failed');
+        error.response = data;
+        error.status = response.status;
+        throw error;
+      }
+
+      return data;
+    } catch (error) {
+      throw error;
+
+      if (error.message.includes('NetworkError')) {
+        error.message =
+          'No se pudo conectar al servidor. Verifica tu conexión a internet.';
+      } else if (error.status === 400) {
+        error.message = 'Datos de registro inválidos';
+      } else if (error.status === 409) {
+        error.message = 'El correo electrónico ya está en uso';
+      } else if (error.status >= 500) {
+        error.message = 'Error del servidor. Por favor, inténtalo más tarde.';
+      }
+
       throw error;
     }
   }
@@ -186,10 +172,6 @@ class AuthService {
 
       throw new Error('Invalid server response');
     } catch (error) {
-      console.error('2FA verification error:', {
-        message: error.message,
-        response: error.response,
-      });
       throw error;
     }
   }
@@ -214,10 +196,6 @@ class AuthService {
 
       return data;
     } catch (error) {
-      console.error('2FA setup error:', {
-        message: error.message,
-        response: error.response,
-      });
       throw error;
     }
   }
@@ -244,10 +222,6 @@ class AuthService {
 
       return data;
     } catch (error) {
-      console.error('2FA confirmation error:', {
-        message: error.message,
-        response: error.response,
-      });
       throw error;
     }
   }
@@ -272,10 +246,6 @@ class AuthService {
 
       return data;
     } catch (error) {
-      console.error('Disable 2FA error:', {
-        message: error.message,
-        response: error.response,
-      });
       throw error;
     }
   }
@@ -306,10 +276,6 @@ class AuthService {
 
       return data;
     } catch (error) {
-      console.error('User search error:', {
-        message: error.message,
-        response: error.response,
-      });
       throw error;
     }
   }

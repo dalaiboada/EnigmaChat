@@ -37,10 +37,10 @@ const setLoading = (loading) => {
 const handlePinInput = (e) => {
   const input = e.target;
   const nextInput = input.nextElementSibling;
-  
+
   // Solo permitir números
   input.value = input.value.replace(/[^0-9]/g, '');
-  
+
   // Mover al siguiente campo si se ingresó un número
   if (input.value && nextInput && nextInput.classList.contains('pin-input')) {
     nextInput.focus();
@@ -50,7 +50,7 @@ const handlePinInput = (e) => {
 // Manejar la tecla de retroceso
 const handleBackspace = (e) => {
   const input = e.target;
-  
+
   if (e.key === 'Backspace' && !input.value) {
     const prevInput = input.previousElementSibling;
     if (prevInput && prevInput.classList.contains('pin-input')) {
@@ -61,32 +61,34 @@ const handleBackspace = (e) => {
 
 // Obtener el código PIN completo
 const getPinCode = () => {
-  return Array.from(pinInputs).map(input => input.value).join('');
+  return Array.from(pinInputs)
+    .map((input) => input.value)
+    .join('');
 };
 
 // Manejar el envío del formulario
 const handleSubmit = async (e) => {
   e.preventDefault();
-  
+
   const pin = getPinCode();
-  
+
   if (pin.length !== 6) {
     showError('Por favor, ingresa el código de 6 dígitos');
     return;
   }
-  
+
   try {
     setLoading(true);
     await authService.verify2FA(pin);
-    
+
     // Redirigir al dashboard después de la verificación exitosa
     window.location.href = '/dashboard.html';
   } catch (error) {
     console.error('2FA verification error:', error);
     showError(error.message || 'Código inválido. Intenta de nuevo.');
-    
+
     // Limpiar los campos de entrada en caso de error
-    pinInputs.forEach(input => {
+    pinInputs.forEach((input) => {
       input.value = '';
     });
     if (pinInputs[0]) pinInputs[0].focus();
@@ -117,31 +119,31 @@ const init2FA = () => {
     window.location.href = '/login.html';
     return;
   }
-  
+
   // Inicializar componentes de UI
   generateParticles();
   initQRInput();
-  
+
   // Configurar manejadores de eventos
   if (verifyForm) {
     verifyForm.addEventListener('submit', handleSubmit);
   }
-  
+
   if (resendButton) {
     resendButton.addEventListener('click', handleResendCode);
   }
-  
+
   // Configurar los campos de entrada del PIN
   pinInputs.forEach((input, index) => {
     input.addEventListener('input', handlePinInput);
     input.addEventListener('keydown', handleBackspace);
-    
+
     // Permitir pegar el código completo
     input.addEventListener('paste', (e) => {
       e.preventDefault();
       const pasteData = e.clipboardData.getData('text');
       const pasteDigits = pasteData.replace(/[^0-9]/g, '').split('');
-      
+
       if (pasteDigits.length === 6) {
         pinInputs.forEach((input, i) => {
           if (pasteDigits[i]) {
@@ -155,7 +157,7 @@ const init2FA = () => {
       }
     });
   });
-  
+
   // Enfocar el primer campo de entrada
   if (pinInputs[0]) {
     pinInputs[0].focus();
