@@ -69,7 +69,7 @@ const validateRegister = (email, password, confirmPassword) => {
   return emailRegex.test(email) && password === confirmPassword;
 };
 
-// login handler
+// Manejar el envío del formulario de login
 const handleLogin = async (e) => {
   e.preventDefault();
   clearError(loginError);
@@ -77,7 +77,7 @@ const handleLogin = async (e) => {
   const loginEmail = document.getElementById('usuario').value.trim();
   const loginPassword = document.getElementById('contrasena').value.trim();
 
-  // Validate login
+  // Validar campos
   if (!validateLogin(loginEmail, loginPassword)) {
     return showError(
       loginError,
@@ -89,23 +89,25 @@ const handleLogin = async (e) => {
     setLoading(true);
     console.log('Attempting login with:', { loginEmail });
 
+    // Realizar la petición
     const result = await authService.login(loginEmail, loginPassword);
 
+    // Verificar si se requiere 2FA
     if (result.required2fa) {
       console.log('2FA required, redirecting to 2FA page');
       window.location.href = '/two-factor-authentication-login';
-    } else {
+    } else { // Si no se requiere 2FA
       console.log('Login successful, redirecting to messages');
       localStorage.setItem('user', JSON.stringify(result.user));
       window.location.href = '/messages';
     }
-  } catch (error) {
+  } catch (error) { // Manejar errores
     console.error('Login error:', error);
     let errorMessage = 'Error al iniciar sesión. Intenta de nuevo.';
     if (error.response) {
       if (error.response.message) {
         errorMessage = error.response.message;
-      } else if (error.status === 401) {
+      } else if (error.status === 401) { // Si el error es 401
         errorMessage = 'Correo o contraseña incorrectos';
       }
     } else if (error.message) {

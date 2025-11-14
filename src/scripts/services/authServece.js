@@ -41,12 +41,14 @@ class AuthService {
   // Login user
   async login(email, password) {
     try {
+      // Validar campos
       if (!email || !password) {
         const error = new Error('Email y contraseña son requeridos');
         error.status = 400;
         throw error;
       }
 
+      // Realizar la petición
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         credentials: 'include',
         method: 'POST',
@@ -59,14 +61,15 @@ class AuthService {
         }),
       });
 
+      // Validar respuesta
       if (!response.ok) {
         const error = new Error(data.message || 'Login failed');
         error.status = response.status;
         throw error;
       }
 
+      // Parsear la respuesta y retornar los datos
       const data = await response.json();
-      console.log(data);
       return {
         user: data.user,
         token: data.token,
