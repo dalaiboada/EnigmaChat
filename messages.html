@@ -35,6 +35,69 @@
           <i class="fas fa-cog"></i>
         </div>
       </aside>
+
+      <!-- Panel de chats -->
+      <div class="chats-panel">
+
+        <!-- Header -->
+        <div class="chats-header">
+          <div class="chats-title">MENSAJES</div>
+          
+          <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Buscar un chat o iniciar uno nuevo">
+          </div>
+        </div>
+        
+        <!-- Lista de Chats  -->
+        <div class="chats-list">
+
+          <!-- Este es un ejemplo: Añadir con js posteriormente -->
+          <div class="chat-item active">
+            <div class="chat-avatar">GE</div>
+
+            <div class="chat-info">
+              <div class="chat-name">Grupo Enigmático</div>
+              <div class="chat-preview">LILITH: He completado el módulo de encriptación</div>
+            </div>
+
+            <div class="chat-time">12:45</div>
+          </div>
+          
+          <!-- Este es otro ejemplo: Añadir con js posteriormente -->
+          <div class="chat-item">
+            <div class="chat-avatar">L</div>
+
+            <div class="chat-info">
+              <div class="chat-name">LILITH</div>
+              <div class="chat-preview">hola hermosa q haces aka abajo tengo mucho q darteee</div>
+            </div>
+            <div class="chat-time">11:30</div>
+          </div>
+        </div>
+        
+        <!-- Botón flotante -->
+        <div class="floating-button" id="floatingButton">
+          <i class="fas fa-plus"></i>
+        </div>
+        
+        <!-- Modal de opciones (Crear grupo o iniciar conversación) -->
+        <div class="mini-modal-overlay" id="miniModalOverlay">
+          <div class="mini-modal">
+            <div class="mini-modal-option" data-action="create-group">
+              <i class="fas fa-users"></i>
+              <span>Crear grupo</span>
+            </div>
+
+            <div class="mini-modal-option" data-action="start-chat">
+              <i class="fas fa-comment"></i>
+              <span>Iniciar conversación</span>
+            </div>
+
+          </div>
+        </div>
+
+      <!-- Panel de conversación -->
     </main>
 
     <!-- Footer -->
@@ -61,8 +124,8 @@
       </div>
     </footer>
 
-
-    <!-- Modal de configuración 2FA -->
+    <!-- MODALES -->
+    <!-- 1. Modal de configuración 2FA -->
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal-container">
         <div class="corner corner-tl"></div>
@@ -168,6 +231,9 @@
         </div>
       </div>
     </div>
+
+    <!-- 2. Modal de Crear grupo -->
+    <!-- 2. Modal de Crear grupo -->
 
     <script type="module" src="src/scripts/ui/pages/Messages.js"></script>
   </body>

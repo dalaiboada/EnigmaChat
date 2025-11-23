@@ -1,0 +1,197 @@
+.chats-panel {
+    width: 400px;
+    background: rgba(10, 15, 25, 0.7);
+    border-right: 1px solid rgba(0, 255, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    position: relative;
+}
+
+.chats-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+    box-shadow: 0 5px 10px -5px var(--color-glow);
+}
+
+.chats-title {
+    color: var(--color-h1);
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px var(--color-h1);
+}
+
+.search-container {
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--color-cyan);
+    border-radius: 20px;
+    padding: 10px 15px 10px 40px;
+    color: var(--color-text);
+    font-family: var(--fuente);
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 8px rgba(0, 255, 255, 0.1);
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 
+        inset 0 0 12px rgba(0, 255, 255, 0.2),
+        0 0 15px rgba(0, 255, 255, 0.3);
+    border-color: var(--color-h1);
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-cyan);
+    opacity: 0.7;
+}
+
+/* Lista de chats */
+.chats-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.chat-item {
+    display: flex;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.chat-item:hover {
+    background: rgba(0, 255, 255, 0.05);
+}
+
+.chat-item.active {
+    background: rgba(0, 255, 255, 0.1);
+    border-right: 3px solid var(--color-cyan);
+}
+
+.chat-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--color-cyan), var(--color-electric-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-dark-blue);
+    font-weight: bold;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.chat-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.chat-name {
+    color: var(--color-text);
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.chat-preview {
+    color: rgba(158, 252, 255, 0.7);
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-time {
+    color: var(--color-cyan);
+    font-size: 12px;
+    text-align: right;
+    margin-bottom: 5px;
+}
+
+/* Botón flotante */
+.floating-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--color-cyan), var(--color-electric-blue));
+    color: var(--color-dark-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--color-glow);
+    border: 2px solid var(--color-cyan);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.floating-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px var(--color-cyan);
+}
+
+/* Mini modal para crear conversación o grupo */
+.mini-modal-overlay {
+    position: absolute;
+    bottom: 90px;
+    right: 20px;
+    z-index: 11;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.mini-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mini-modal {
+    background: rgba(10, 15, 25, 0.95);
+    border: 1px solid var(--color-cyan);
+    border-radius: 10px;
+    padding: 10px 0;
+    box-shadow: 0 0 15px var(--color-glow);
+    width: 200px;
+}
+
+.mini-modal-option {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--color-text);
+}
+
+.mini-modal-option:hover {
+    background: rgba(0, 255, 255, 0.1);
+    color: var(--color-cyan);
+}
+
+.mini-modal-option i {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.mini-modal-option span {
+    font-size: 14px;
+    font-family: var(--fuente);
+}
