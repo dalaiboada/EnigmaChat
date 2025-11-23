@@ -6,6 +6,9 @@
 @import "./NavSidebar/NavSidebar.css";
 @import "./modal/Modal.css";
 
+/* Panel de chats*/
+@import "./ChatsPanel/ChatsPanel.css";
+
 /* Footer */
 @import "@/styles/pages/login/Footer/Footer.css";
 
