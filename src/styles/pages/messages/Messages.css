@@ -9,6 +9,9 @@
 /* Panel de chats*/
 @import "./ChatsPanel/ChatsPanel.css";
 
+/* Panel de Conversaciones */
+@import "./ConversationPanel/ConversationPanel.css";
+
 /* Footer */
 @import "@/styles/pages/login/Footer/Footer.css";
 
