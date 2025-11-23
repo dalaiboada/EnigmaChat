@@ -6,9 +6,12 @@
 @import "./NavSidebar/NavSidebar.css";
 @import "./modal/Modal.css";
 
+/* Footer */
+@import "@/styles/pages/login/Footer/Footer.css";
+
 .messenger-container {
 	display: flex;
-	height: 100vh;
+	height: 93vh;
 	width: 100vw;
 	position: relative;
 	z-index: 2;
