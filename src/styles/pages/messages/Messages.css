@@ -2,9 +2,8 @@
 @import "@/styles/components/BackgroundEffects.css";
 @import "@/styles/components/Animations.css";
 
-@import "./Scrollbar.css";
+/* Panel de navegación */
 @import "./NavSidebar/NavSidebar.css";
-@import "./modal/Modal.css";
 
 /* Panel de chats*/
 @import "./ChatsPanel/ChatsPanel.css";
@@ -14,6 +13,12 @@
 
 /* Footer */
 @import "@/styles/pages/login/Footer/Footer.css";
+
+/* Modales */
+@import "./Modals/Modals.css";
+
+/* ScrollBars */
+@import "./Scrollbar.css";
 
 .messenger-container {
 	display: flex;

@@ -1,0 +1,459 @@
+/* Dividir después */
+
+/* 2FA */
+.modal-overlay.config-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 5, 10, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.config-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-container.config-modal {
+    width: 90%;
+    max-width: 700px;
+    height: 80%;
+    max-height: 600px;
+    background: rgba(10, 15, 25, 0.95);
+    border-radius: 10px;
+    box-shadow: 
+        0 0 25px var(--color-cyan),
+        inset 0 0 25px rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--color-cyan);
+    position: relative;
+    overflow: hidden;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.config-modal.active .modal-container.config-modal {
+    transform: scale(1);
+}
+
+.modal-container.config-modal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 255, 255, 0.03) 0px,
+        rgba(0, 255, 255, 0.03) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 1;
+    animation: scan 8s linear infinite;
+}
+
+
+/* Encabezado del modal */
+.modal-header {
+    padding: 20px 30px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+    box-shadow: 0 5px 10px -5px var(--color-glow);
+    position: relative;
+    z-index: 2;
+}
+
+.modal-title {
+    color: var(--color-h1);
+    text-shadow: 0 0 10px var(--color-glow);
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.modal-subtitle {
+    color: var(--color-text);
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Contenido del modal */
+.modal-content {
+    padding: 25px 30px;
+    height: calc(100% - 80px);
+    overflow-y: auto;
+    position: relative;
+    z-index: 2;
+}
+
+/* Opciones de 2FA */
+.option-group {
+    margin-bottom: 30px;
+}
+
+.option-item {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.option-item:hover {
+    background: rgba(0, 0, 0, 0.6);
+    border-color: var(--color-cyan);
+    box-shadow: 0 0 10px var(--color-glow);
+}
+
+.option-item.active {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: var(--color-cyan);
+    box-shadow: 0 0 15px var(--color-glow);
+}
+
+.option-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: rgba(0, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    font-size: 22px;
+    color: var(--color-cyan);
+    box-shadow: 0 0 8px var(--color-glow);
+}
+
+.option-content {
+    flex: 1;
+}
+
+.option-title {
+    color: var(--color-text);
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.option-description {
+    color: rgba(158, 252, 255, 0.7);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.option-status {
+    width: 60px;
+    height: 30px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option-status.active {
+    background: rgba(0, 255, 255, 0.3);
+}
+
+.option-status::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-text);
+    transition: all 0.3s ease;
+}
+
+.option-status.active::after {
+    left: calc(100% - 27px);
+    background: var(--color-cyan);
+    box-shadow: 0 0 8px var(--color-cyan);
+}
+
+/* Botón de cerrar */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--color-cyan);
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 8px var(--color-glow);
+    z-index: 10;
+}
+
+.close-btn:hover {
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 15px var(--color-cyan);
+    transform: rotate(90deg);
+}
+
+/* ESTILOS PARA LOS NUEVOS MODALES (CREAR GRUPO E INICIAR CHAT) */
+.modal-overlay.chat-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 5, 10, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.chat-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-container.chat-modal {
+    width: 90%;
+    max-width: 600px;
+    height: 80vh;
+    background: rgba(10, 15, 25, 0.95);
+    border-radius: 10px;
+    box-shadow: 
+        0 0 25px var(--color-cyan),
+        inset 0 0 25px rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--color-cyan);
+    position: relative;
+    overflow: hidden;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+
+/* Estilos específicos para los nuevos modales */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--color-text);
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--color-cyan);
+    border-radius: 8px;
+    padding: 12px 15px;
+    color: var(--color-text);
+    font-family: var(--fuente);
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 8px rgba(0, 255, 255, 0.1);
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+
+.input-group input:focus {
+    outline: none;
+    box-shadow: 
+        inset 0 0 12px rgba(0, 255, 255, 0.2),
+        0 0 15px rgba(0, 255, 255, 0.3);
+    border-color: var(--color-h1);
+}
+
+.users-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-item:hover {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: var(--color-cyan);
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--color-cyan), var(--color-electric-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-dark-blue);
+    font-weight: bold;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-name {
+    color: var(--color-text);
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.user-status {
+    color: var(--color-cyan);
+    font-size: 12px;
+}
+
+.selected-users {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.selected-user {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--color-cyan);
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+.selected-user i {
+    margin-left: 8px;
+    cursor: pointer;
+    color: var(--color-cyan);
+}
+
+.permissions-group {
+    margin-top: 20px;
+}
+
+.permission-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.permission-info h4 {
+    color: var(--color-text);
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.permission-info p {
+    color: rgba(158, 252, 255, 0.7);
+    font-size: 14px;
+}
+
+.permission-toggle {
+    width: 50px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.permission-toggle.active {
+    background: rgba(0, 255, 255, 0.3);
+}
+
+.permission-toggle::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--color-text);
+    transition: all 0.3s ease;
+}
+
+.permission-toggle.active::after {
+    left: calc(100% - 22px);
+    background: var(--color-cyan);
+    box-shadow: 0 0 8px var(--color-cyan);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--fuente);
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 1px solid;
+}
+
+.btn-cancel {
+    background: transparent;
+    color: var(--color-text);
+    border-color: var(--color-text);
+}
+
+.btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-confirm {
+    background: rgba(0, 255, 255, 0.1);
+    color: var(--color-cyan);
+    border-color: var(--color-cyan);
+    box-shadow: 0 0 8px var(--color-glow);
+}
+
+.btn-confirm:hover {
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 15px var(--color-cyan);
+}

@@ -191,114 +191,267 @@
 
     <!-- MODALES -->
     <!-- 1. Modal de configuración 2FA -->
-    <div class="modal-overlay" id="modalOverlay">
-      <div class="modal-container">
+    <div class="modal-overlay config-modal" id="modalOverlay">
+        <div class="modal-container config-modal">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+            
+            <div class="close-btn" id="closeModal">
+                <i class="fas fa-times"></i>
+            </div>
+            
+            <div class="modal-header">
+                <h2 class="modal-title">Two-Factor Authentication (2FA)</h2>
+                <p class="modal-subtitle">Configure sus métodos de autenticación de dos factores</p>
+            </div>
+            
+            <div class="modal-content">
+              
+              <!-- Opción 1: Google Authenticator -->
+              <div class="option-group">
+                <div class="option-item active">
+                  <div class="option-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                  </div>
+                  
+                  <div class="option-content">
+                    <div class="option-title">Google Authenticator</div>
+                    <div class="option-description">
+                      Use Google Authenticator para proteger tu cuenta.
+                    </div>
+                  </div>
+                  
+                  <div class="option-status active"></div>
+                </div>
+              </div>
+              
+              <!-- Opción 2: Email -->
+              <div class="option-group">
+                <div class="option-item">
+                  <div class="option-icon">
+                    <i class="fas fa-envelope"></i>
+                  </div>
+                  <div class="option-content">
+                    <div class="option-title">Correo Electrónico</div>
+
+                    <div class="option-description">
+                      Use su correo electrónico para proteger su cuenta.
+                    </div>
+                  </div>
+
+                  <div class="option-status"></div>
+                </div>
+              </div>
+
+                <!-- Opción 3: Phone Number -->
+              <div class="option-group">
+                <div class="option-item">
+                  <div class="option-icon">
+                    <i class="fas fa-phone"></i>
+                  </div>
+
+                  <div class="option-content">
+                    <div class="option-title">Verificar por SMS</div>
+
+                    <div class="option-description">
+                      Use su número de teléfono mediante un mensaje SMS para proteger su cuenta.
+                    </div>
+                  </div>
+                  
+                  <div class="option-status"></div>
+                </div>
+              </div>
+
+              <!-- Opción 4: Passkeys (Biometrics) -->
+              <div class="option-group">
+                <div class="option-item">
+                  <div class="option-icon">
+                    <i class="fas fa-fingerprint"></i>
+                  </div>
+
+                  <div class="option-content">
+                    <div class="option-title">Passkeys (Autenticación biométrica)</div>
+
+                    <div class="option-description">
+                      Proteja su cuenta y retiros con Passkeys y/o claves de seguridad, como Yubikey.
+                    </div>
+                  </div>
+
+                  <div class="option-status"></div>
+                </div>
+              </div>
+              
+              <!-- Opción 5: Login solo conPassword -->
+              <div class="option-group">
+                <div class="option-item">
+                    <div class="option-icon">
+                      <i class="fas fa-key"></i>
+                    </div>
+
+                    <div class="option-content">
+                      <div class="option-title">Solo contraseña</div>
+                      <div class="option-description">
+                        La contraseña de inicio de sesión se utiliza para acceder a su cuenta.
+                      </div>
+                    </div>
+
+                  <div class="option-status"></div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Modal para Crear grupo -->
+    <div class="modal-overlay chat-modal" id="createGroupModal">
+      <div class="modal-container chat-modal">
         <div class="corner corner-tl"></div>
         <div class="corner corner-tr"></div>
         <div class="corner corner-bl"></div>
         <div class="corner corner-br"></div>
-
-        <div class="close-btn" id="closeModal">
+        
+        <div class="close-btn" id="closeCreateGroupModal">
           <i class="fas fa-times"></i>
         </div>
-
+        
         <div class="modal-header">
-          <h2 class="modal-title">Two-Factor Authentication (2FA)</h2>
-          <p class="modal-subtitle">
-            Configure sus métodos de autenticación de dos factores
-          </p>
+          <h2 class="modal-title">Crear grupo</h2>
+          <p class="modal-subtitle">Agrega participantes y configura el grupo</p>
         </div>
-
+        
         <div class="modal-content">
-          <!-- Opción 1: Google Authenticator -->
-          <div class="option-group">
-            <div class="option-item active">
-              <div class="option-icon">
-                <i class="fa-solid fa-qrcode"></i>
+          <div class="input-group">
+            <label for="groupName">Nombre del grupo</label>
+            <input type="text" id="groupName" placeholder="Ingresa el nombre del grupo">
+          </div>
+          
+          <div class="input-group">
+            <label for="searchUsers">Buscar usuarios</label>
+            <input type="text" id="searchUsers" placeholder="Buscar por nombre o usuario">
+          </div>
+          
+          <div class="selected-users" id="selectedUsers">
+            <!-- Aquí se mostrarán los usuarios seleccionados -->
+          </div>
+          
+          <div class="users-list" id="usersListGroup">
+            <!-- Aquí se mostrara la lista de usuarios para agregar al grupo -->
+
+            <!-- Este es un ejemplo, borrar luego -->
+            <div class="user-item">
+              <div class="user-avatar">L</div>
+
+              <div class="user-info">
+                <div class="user-name">LILITH</div>
+                <div class="user-status">En línea</div>
               </div>
-              <div class="option-content">
-                <div class="option-title">Google Authenticator</div>
-                <div class="option-description">
-                  Use Google Authenticator para proteger su cuenta.
-                </div>
-              </div>
-              <div class="option-status active"></div>
             </div>
           </div>
+          
+          <!-- Permisos -->
+          <div class="permissions-group">
+            <h3 style="color: var(--color-text); margin-bottom: 15px;">Permisos del grupo</h3>
 
-          <!-- Opción 2: Correo -->
-          <div class="option-group">
-            <div class="option-item">
-              <div class="option-icon">
-                <i class="fas fa-envelope"></i>
+            <div class="permission-item">
+              <div class="permission-info">
+                <h4>Quién puede enviar mensajes</h4>
+                <p>Todos los participantes pueden enviar mensajes</p>
               </div>
-              <div class="option-content">
-                <div class="option-title">Correo electrónico</div>
-                <div class="option-description">
-                  Use su correo electrónico para proteger su cuenta.
-                </div>
+
+              <div class="permission-toggle active" data-permission="1"></div>
+            </div>
+
+            <div class="permission-item">
+              <div class="permission-info">
+                <h4>Quién puede editar la información del grupo</h4>
+                <p>Solo los administradores pueden editar la información</p>
               </div>
-              <div class="option-status"></div>
+              
+              <div class="permission-toggle" data-permission="2"></div>
+            </div>
+
+            <div class="permission-item">
+              <div class="permission-info">
+                <h4>Quién puede agregar participantes</h4>
+                <p>Todos los participantes pueden agregar personas</p>
+              </div>
+              <div class="permission-toggle active" data-permission="3"></div>
             </div>
           </div>
-
-          <!-- Opción 3: Número de teléfono -->
-          <div class="option-group">
-            <div class="option-item">
-              <div class="option-icon">
-                <i class="fas fa-phone"></i>
-              </div>
-              <div class="option-content">
-                <div class="option-title">Verificación por SMS</div>
-                <div class="option-description">
-                  Use su número de teléfono mediante un mensaje SMS para
-                  proteger su cuenta.
-                </div>
-              </div>
-              <div class="option-status"></div>
-            </div>
-          </div>
-
-          <!-- Opción 4: Passkeys (Biometrics) -->
-          <div class="option-group">
-            <div class="option-item">
-              <div class="option-icon">
-                <i class="fas fa-fingerprint"></i>
-              </div>
-              <div class="option-content">
-                <div class="option-title">
-                  Passkeys (Autenticación biométrica)
-                </div>
-                <div class="option-description">
-                  Proteja su cuenta usando passkeys, con métodos como huella
-                  digital, reconocimiento facial o PIN.
-                </div>
-              </div>
-              <div class="option-status"></div>
-            </div>
-          </div>
-
-          <!-- Opción 5: Login Password -->
-          <div class="option-group">
-            <div class="option-item">
-              <div class="option-icon">
-                <i class="fas fa-key"></i>
-              </div>
-              <div class="option-content">
-                <div class="option-title">Solo contraseña</div>
-                <div class="option-description">
-                  Utilice solo su contraseña para iniciar sesión.
-                </div>
-              </div>
-              <div class="option-status"></div>
-            </div>
+          
+          <div class="modal-actions">
+            <button class="btn btn-cancel" id="cancelCreateGroup">Cancelar</button>
+            <button class="btn btn-confirm" id="confirmCreateGroup">Crear grupo</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 2. Modal de Crear grupo -->
-    <!-- 3. Modal de Nueva conversación -->
+    <!-- 3. Modal para Iniciar conversación -->
+    <div class="modal-overlay chat-modal" id="startChatModal">
+      <div class="modal-container chat-modal">
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div>
+        <div class="corner corner-br"></div>
+        
+        <div class="close-btn" id="closeStartChatModal">
+          <i class="fas fa-times"></i>
+        </div>
+        
+        <div class="modal-header">
+          <h2 class="modal-title">Iniciar conversación</h2>
+          <p class="modal-subtitle">Busca un usuario para comenzar a chatear</p>
+        </div>
+          
+        <div class="modal-content">
+          <div class="input-group">
+            <input type="text" class="search-input" placeholder="Buscar usuario...">
+          </div>
+          
+          <!-- Lista de Usuarios (Contactos) -->
+          <div class="users-list">
+            <div class="user-item">
+              <div class="user-avatar">D</div>
+
+              <div class="user-info">
+                <div class="user-name">DANIEL</div>
+                <div class="user-status">En línea</div>
+              </div>
+            </div>
+
+            <div class="user-item">
+              <div class="user-avatar">G</div>
+
+              <div class="user-info">
+                <div class="user-name">GRACIANO</div>
+                <div class="user-status">Última vez hoy a las 10:15</div>
+              </div>
+            </div>
+
+            <div class="user-item">
+              <div class="user-avatar">D</div>
+
+              <div class="user-info">
+                <div class="user-name">DALAI</div>
+                <div class="user-status">En línea</div>
+              </div>
+            </div>
+
+              <div class="user-item">
+                <div class="user-avatar">L</div>
+
+                <div class="user-info">
+                  <div class="user-name">LILITH</div>
+                  <div class="user-status">Última vez ayer a las 18:30</div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script type="module" src="src/scripts/ui/pages/Messages.js"></script>
   </body>
