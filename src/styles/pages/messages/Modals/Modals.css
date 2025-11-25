@@ -1,4 +1,4 @@
-/* Dividir después */
+/* TODO: Dividir después */
 
 /* 2FA */
 .modal-overlay.config-modal {
@@ -215,7 +215,7 @@
     transform: rotate(90deg);
 }
 
-/* ESTILOS PARA LOS NUEVOS MODALES (CREAR GRUPO E INICIAR CHAT) */
+/* ESTILOS PARA LOS MODALES (CREAR GRUPO E INICIAR CHAT) */
 .modal-overlay.chat-modal {
     position: fixed;
     top: 0;
@@ -259,14 +259,14 @@
     margin-bottom: 20px;
 }
 
-.input-group label {
+.input-group label, .input-group textarea {
     display: block;
     margin-bottom: 8px;
     color: var(--color-text);
     font-size: 14px;
 }
 
-.input-group input {
+.input-group input, .input-group textarea {
     width: 100%;
     background: rgba(0, 0, 0, 0.6);
     border: 1px solid var(--color-cyan);
@@ -280,12 +280,23 @@
     font-size: 14px;
 }
 
-.input-group input:focus {
+.input-group input:focus, .input-group textarea:focus {
     outline: none;
     box-shadow: 
         inset 0 0 12px rgba(0, 255, 255, 0.2),
         0 0 15px rgba(0, 255, 255, 0.3);
     border-color: var(--color-h1);
+}
+
+.input-group textarea {
+    height: 100px;
+}
+
+.content-separator {
+    height: 2px;
+    background: rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.1);
+    margin: 20px 0;
 }
 
 .users-list {

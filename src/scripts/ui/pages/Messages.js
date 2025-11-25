@@ -4,6 +4,7 @@ import updateSystemTime from '@/scripts/ui/components/SystemTime.js';
 
 import initMiniModal from '@/scripts/ui/components/Modals/MiniModal.js';
 import initStartChatModal from '@/scripts/ui/components/Modals/StartChatModal.js';
+import initCreateGroupModal from '@/scripts/ui/components/Modals/CreateGroupModal.js';
 
 const usernameInfo = document.getElementById('username-info');
 
@@ -12,6 +13,7 @@ const initMessages = () => {
   initModal();
   initMiniModal();
   initStartChatModal();
+  initCreateGroupModal();
 
   // Actualizar hora cada segundo
   updateSystemTime();
