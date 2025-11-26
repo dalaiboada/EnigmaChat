@@ -1,4 +1,4 @@
-import { authService } from '@/scripts/services/authServece.js';
+import { authService } from '@/scripts/services/auth.js';
 
 const $modalOverlay = document.getElementById('modalOverlay');
 const $settingsBtn = document.getElementById('settings-btn');

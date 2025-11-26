@@ -1,6 +1,6 @@
 import generateParticles from '@/scripts/ui/components/Particles.js';
 import { initQRInput } from '@/scripts/ui/components/QRInput.js';
-import { authService } from '@/scripts/services/authServece.js';
+import { authService } from '@/scripts/services/auth.js';
 
 // DOM Elements
 const verificationForm = document.querySelector('.verification-form');

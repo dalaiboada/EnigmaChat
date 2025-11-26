@@ -1,5 +1,5 @@
 // Configuración de la URL base de la API usando variables de entorno de Vite
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;// || 'http://localhost:3000/api';
 
 // Clase principal del servicio de autenticación
 class AuthService {

@@ -1,6 +1,6 @@
 // Servicio para gestionar chats - Llamadas a la API
 
-import { authService } from './authServece.js';
+import { authService } from './auth.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
 

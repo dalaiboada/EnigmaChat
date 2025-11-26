@@ -3,7 +3,7 @@ import ScannerStatus from '@/scripts/ui/components/ScannerStatus.js';
 import updateSystemTime from '@/scripts/ui/components/SystemTime.js';
 import switchTab from '@/scripts/ui/components/Tab.js';
 import generateParticles from '@/scripts/ui/components/Particles.js';
-import { authService } from '@/scripts/services/authServece.js';
+import { authService } from '@/scripts/services/auth.js';
 
 // Loading state management
 const setLoading = (isLoading) => {
