@@ -1,5 +1,7 @@
 // Lógica pura de UI y renderizado
 
+import { handleCreateGroup } from '@/scripts/controllers/chatsController.js';
+
 // Elementos del DOM
 export const modalElements = {
   modal: document.getElementById('createGroupModal'),
@@ -16,7 +18,7 @@ export const modalElements = {
 
 let selectedUsers = [];
 
-// Funciones de renderizado
+// -- FUNCIONES DE RENDERIZADO
 const renderUserItem = (user, onUserSelect) => {
   const $userItem = document.createElement('div');
 
@@ -65,13 +67,31 @@ const renderSelectedUsers = (selectedUsers, onRemoveUser) => {
   });
 };
 
-// Funciones de UI
+const handleUserSelect = user => {
+  // Evitar duplicados antes de agregar
+  if (!selectedUsers.some(u => u.name === user.name)) {
+      selectedUsers.push(user);
+  }
+  // Actualiza la lista de seleccionados
+  renderSelectedUsers(selectedUsers, handleRemoveUser);
+};
+
+const handleRemoveUser = userToRemove => {
+    // Actualizar el estado
+    selectedUsers = selectedUsers.filter(user => user.name !== userToRemove.name);
+    
+    // Actualiza la lista de seleccionados
+    renderSelectedUsers(selectedUsers, handleRemoveUser);
+};
+
+// -- FUNCIONES DE UI
 const closeModal = () => {
   modalElements.modal.classList.remove('active');
 };
 
 const clearForm = () => {
   modalElements.groupNameInput.value = '';
+  modalElements.descriptionInput.value = '';
   modalElements.searchInput.value = '';
   modalElements.usersList.innerHTML = '';
   modalElements.selectedUsersContainer.innerHTML = '';
@@ -82,14 +102,22 @@ const clearSelectedUsers = () => {
   renderSelectedUsers(selectedUsers, handleRemoveUser);
 };
 
-const getFormData = () => ({
-  groupName: modalElements.groupNameInput.value.trim(),
-  groupDescription: modalElements.descriptionInput.value.trim(),
-  permissions: Array.from(modalElements.permissionToggles)
-    .map(toggle => toggle.classList.contains('active')),
-  participants: Array.from(modalElements.selectedUsersContainer.children)
-    .map(user => user.textContent.trim())
-});
+const getFormData = () => {
+  // Obtener permisos activos (sus data-permission)
+  const activePermissions = Array.from(modalElements.permissionToggles)
+    .filter(toggle => toggle.classList.contains('active'))
+    .map(toggle => toggle.dataset.permission);
+  
+  // Obtener nombres de participantes seleccionados
+  const participants = selectedUsers.map(user => user.name.toLowerCase());
+  
+  return {
+    name: modalElements.groupNameInput.value.trim(),
+    description: modalElements.descriptionInput.value.trim(),
+    permissions: activePermissions,
+    participants: participants
+  };
+};
 
 const initPermissionToggles = () => {
   modalElements.permissionToggles.forEach(toggle => {
@@ -99,21 +127,49 @@ const initPermissionToggles = () => {
   });
 };
 
-const handleUserSelect = (user) => {
-  // Evitar duplicados antes de agregar
-  if (!selectedUsers.some(u => u.name === user.name)) {
-      selectedUsers.push(user);
-  }
-  // Actualiza la lista de seleccionados
-  renderSelectedUsers(selectedUsers, handleRemoveUser);
-};
-
-const handleRemoveUser = (userToRemove) => {
-    // Actualizar el estado
-    selectedUsers = selectedUsers.filter(user => user.name !== userToRemove.name);
+const handleConfirmCreateGroup = async () => {
+  try {
+    const formData = getFormData();
     
-    // Actualiza la lista de seleccionados
-    renderSelectedUsers(selectedUsers, handleRemoveUser);
+    // Validar datos
+    if (!formData.name) {
+      alert('Por favor, ingresa un nombre para el grupo');
+      return;
+    }
+    
+    if (formData.participants.length === 0) {
+      alert('Por favor, selecciona al menos un participante');
+      return;
+    }
+    
+    console.log('📤 Creando grupo con datos:', formData);
+    
+    // Deshabilitar botón mientras se crea
+    modalElements.confirmBtn.disabled = true;
+    modalElements.confirmBtn.textContent = 'Creando...';
+    
+    // Crear grupo usando el controlador
+    const newGroup = await handleCreateGroup(formData);
+    
+    console.log('✅ Grupo creado exitosamente:', newGroup);
+    
+    // Cerrar modal y limpiar formulario
+    closeModal();
+    clearForm();
+    clearSelectedUsers();
+    
+    // Restaurar botón
+    modalElements.confirmBtn.disabled = false;
+    modalElements.confirmBtn.textContent = 'Crear grupo';
+    
+  } catch (error) {
+    console.error('❌ Error al crear grupo:', error);
+    alert(`Error al crear el grupo: ${error.message}`);
+    
+    // Restaurar botón
+    modalElements.confirmBtn.disabled = false;
+    modalElements.confirmBtn.textContent = 'Crear grupo';
+  }
 };
 
 const initCreateGroupModal = () => {
@@ -126,28 +182,24 @@ const initCreateGroupModal = () => {
     if (e.key === 'Escape') closeModal();
   });
 
-  // TODO: Modifica, esto es solo para pruebas
-  modalElements.confirmBtn.addEventListener('click', () => {
-    const formData = getFormData();
-    console.log(formData);
-    closeModal();
-    clearForm();
-    clearSelectedUsers();
-  });
-  modalElements.searchInput.addEventListener('input', e => {
-    console.log(e.target.value);
-    renderUsersList(mockUsers, handleUserSelect);
-  });
-
   clearForm();
   clearSelectedUsers();
   initPermissionToggles();
 
+  // Evento para crear grupo
+  modalElements.confirmBtn.addEventListener('click', handleConfirmCreateGroup);
+  
+  // Mock de usuarios para desarrollo
   const mockUsers = [ 
     { name: 'Lilith', status: 'En línea' },
     { name: 'Eva', status: 'En línea' },
     { name: 'Daniel', status: 'En línea' }
   ];
+  
+  modalElements.searchInput.addEventListener('input', e => {
+    console.log(e.target.value);
+    renderUsersList(mockUsers, handleUserSelect);
+  });
 }
 
 export default initCreateGroupModal;
