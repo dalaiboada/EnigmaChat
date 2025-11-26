@@ -1,33 +1,36 @@
 .chats-list::-webkit-scrollbar,
 .messages-container::-webkit-scrollbar,
-.modal-content::-webkit-scrollbar {
-	width: 8px;
+.modal-content::-webkit-scrollbar,
+.users-list::-webkit-scrollbar {
+    width: 8px;
 }
 
 .chats-list::-webkit-scrollbar-track,
 .messages-container::-webkit-scrollbar-track,
-.modal-content::-webkit-scrollbar-track {
-	background: rgba(0, 0, 0, 0.3);
-	border-radius: 4px;
-	box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.1);
+.modal-content::-webkit-scrollbar-track,
+.users-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.1);
 }
 
 .chats-list::-webkit-scrollbar-thumb,
 .messages-container::-webkit-scrollbar-thumb,
-.modal-content::-webkit-scrollbar-thumb {
-	background: linear-gradient(to bottom, var(--color-cyan), var(--color-electric-blue));
-	border-radius: 4px;
-	box-shadow: 
-		0 0 5px var(--color-cyan),
-		inset 0 0 3px rgba(0, 0, 0, 0.5);
-	cursor: pointer;
+.modal-content::-webkit-scrollbar-thumb,
+.users-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--color-cyan), var(--color-electric-blue));
+    border-radius: 4px;
+    box-shadow: 
+        0 0 5px var(--color-cyan),
+        inset 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
 .chats-list::-webkit-scrollbar-thumb:hover,
 .messages-container::-webkit-scrollbar-thumb:hover,
-.modal-content::-webkit-scrollbar-thumb:hover {
-	background: linear-gradient(to bottom, var(--color-electric-blue), var(--color-cyan));
-	box-shadow: 
-		0 0 8px var(--color-cyan),
-		inset 0 0 3px rgba(0, 0, 0, 0.5);
+.modal-content::-webkit-scrollbar-thumb:hover,
+.users-list::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, var(--color-electric-blue), var(--color-cyan));
+    box-shadow: 
+        0 0 8px var(--color-cyan),
+        inset 0 0 3px rgba(0, 0, 0, 0.5);
 }
