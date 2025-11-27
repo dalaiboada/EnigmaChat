@@ -109,7 +109,18 @@
 
             <div class="conversation-actions">
               <i class="fas fa-search action-icon"></i>
-              <i class="fas fa-ellipsis-v action-icon"></i>
+              <i class="fas fa-ellipsis-v action-icon" id="chatOptionsBtn"></i>
+
+              <!-- Mini modal para opciones del chat -->
+              <div class="chat-options-modal" id="chatOptionsModal">
+                <div class="chat-options-content">
+                  <div class="chat-option-item">
+                    <div class="chat-option-text">Todos los participantes pueden enviar mensajes</div>
+
+                    <div class="chat-option-toggle active" id="isOpenToggle"></div>
+                  </div>
+                </div>
+              </div>
             </div>
         </div>
         
