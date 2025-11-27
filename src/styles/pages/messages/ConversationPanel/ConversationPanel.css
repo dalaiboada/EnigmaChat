@@ -161,7 +161,7 @@
     box-shadow: inset 0 0 8px rgba(0, 255, 255, 0.1);
     font-size: 14px;
     resize: none;
-    height: 50px;
+    height: 80px;
     max-height: 120px;
 }
 
@@ -171,6 +171,16 @@
         inset 0 0 12px rgba(0, 255, 255, 0.2),
         0 0 15px rgba(0, 255, 255, 0.3);
     border-color: var(--color-h1);
+}
+
+.message-input.close {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(158, 252, 255, 0.4);
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    user-select: none;
 }
 
 .send-button {
@@ -193,4 +203,20 @@
     background: rgba(0, 255, 255, 0.2);
     box-shadow: 0 0 15px var(--color-cyan);
     transform: scale(1.05);
+}
+
+.send-button.close {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(158, 252, 255, 0.3);
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+}
+
+.send-button.close:hover {
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: none;
+    transform: none;
 }

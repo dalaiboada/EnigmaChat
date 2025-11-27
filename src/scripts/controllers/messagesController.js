@@ -1,7 +1,8 @@
 // Controlador de mensajes - Orquesta la carga y renderizado de mensajes
 
-import { loadMessages, sendMessage } from '@/scripts/services/messages.js';
+import { loadMessages, sendMessage, updateChatStateMock } from '@/scripts/services/messages.js';
 import { renderAllMessages, addMessage, clearMessages } from '@/scripts/ui/components/ConversationPanel.js';
+import { toggleState } from '@/scripts/ui/components/Modals/OptionsChatModal.js';
 
 // -- ESTADO DEL CONTROLADOR
 let currentChatId = null;
@@ -125,3 +126,27 @@ export const reloadCurrentChat = async () => {
     await loadChatMessages(currentChatId);
   }
 };
+
+
+// TODO: [Revisar] Fue un invento mío
+export const initMessagesController = () => {
+	console.log('MessagesController.js loaded');
+
+	// Obtener el chatId actual (por ahora desde mock, luego desde getCurrentChatId())
+	const chatId = getStateChatDataMock().chatId;
+	
+	// Configurar el toggle con un callback que captura chatId por closure
+	toggleState((isOpen) => {
+		chatId 
+			? updateChatStateMock(chatId, isOpen) 
+			: console.log('No hay chat activo para actualizar el estado');
+	});
+}
+
+function getStateChatDataMock(){
+  return {
+    chatId: 'm5why9xU',
+    isOpen: true
+  }
+}
+

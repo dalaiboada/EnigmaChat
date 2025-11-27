@@ -8,6 +8,7 @@ import initCreateGroupModal from '@/scripts/ui/components/Modals/CreateGroupModa
 import initOptionsModal from '@/scripts/ui/components/Modals/OptionsChatModal.js';
 
 import { initChatsController } from '@/scripts/controllers/chatsController.js';
+import { initMessagesController } from '@/scripts/controllers/messagesController.js';
 
 const usernameInfo = document.getElementById('username-info');
 
@@ -20,6 +21,7 @@ const initMessages = () => {
   initOptionsModal();
 
   initChatsController();
+  initMessagesController();
 
   // Actualizar hora cada segundo
   updateSystemTime();

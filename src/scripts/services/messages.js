@@ -67,3 +67,25 @@ export const sendMessage = async (chatId, ciphertext) => {
 
 	return transformedData;
 }
+
+// TODO: [Revisar] Fue autocompletado
+const updateChatState = async (chatId, isOpen) => { 
+	const data = await authenticatedFetch(`/chats/${chatId}/messages`, {
+		method: 'POST',
+		body: JSON.stringify({ isOpen })
+	});
+
+	return data;
+}
+
+
+// TODO: [Eliminar] cuando se implemente la API 
+export const updateChatStateMock = ( chatID, isOpen ) => {
+	console.log(`DESDE SERVICIO: Chat [${chatID}]: ${isOpen ? 'Activado' : 'Desactivado'}`);
+}
+
+export const getStateChatMock = () => {
+	return {
+		isOpen: true
+	}
+}

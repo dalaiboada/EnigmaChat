@@ -3,14 +3,20 @@
 const $chatOptionsModal = document.getElementById('chatOptionsModal');
 const $chatOptionsBtn = document.getElementById('chatOptionsBtn');
 const $isOpenToggle = document.getElementById('isOpenToggle');
+const $messageInput = document.getElementById('message-input');
+const $sendButton = document.querySelector('.send-button');
 
-let isOpenChat = false;
+// TODO: Este valor debería venir del estado del chat actual de la API
+let isOpenChat = true;
 
 // initModal()
 const initOptionsModal = () => {
 	console.log('OptionsChatModal.js loaded');
-	openModal()
-	closeModal()
+	updateToggleState();
+	updateInputState();  // Inicializar estado de inputs
+	openModal();
+	closeModal();
+	// toggleState() debe ser llamado desde el controlador con un callback
 }
 
 function openModal() {
@@ -29,9 +35,42 @@ function closeModal() {
 	});
 }
 
-// TODO: toggleModal()
-function toggleModal() {
-	$chatOptionsModal.classList.toggle('active');
+// Toggle del estado de chat abierto/cerrado
+export function toggleState(handleIsOpenToggle) {
+	$isOpenToggle.addEventListener('click', e => {
+		e.stopPropagation();
+		isOpenChat = !isOpenChat;
+		
+		updateToggleState(); // Actualizar estado del toggle
+		updateInputState();  // Actualizar estado de inputs de mensaje
+		
+		// Ejecutar callback solo si existe, pasando el nuevo estado
+		if (handleIsOpenToggle && typeof handleIsOpenToggle === 'function') 
+			handleIsOpenToggle(isOpenChat);
+	});
+}
+
+function updateToggleState() {
+	isOpenChat
+		? $isOpenToggle.classList.add('active') 
+		: $isOpenToggle.classList.remove('active');
+}
+
+// Habilitar/deshabilitar inputs según el estado del chat
+function updateInputState() {
+	if (isOpenChat) {
+		// Chat abierto: habilitar inputs
+		$messageInput.classList.remove('close');
+		$sendButton.classList.remove('close');
+		$messageInput.disabled = false;
+		$messageInput.placeholder = 'Escribe un mensaje...';
+	} else {
+		// Chat cerrado: deshabilitar inputs
+		$messageInput.classList.add('close');
+		$sendButton.classList.add('close');
+		$messageInput.disabled = true;
+		$messageInput.placeholder = 'Solo los administradores pueden enviar mensajes';
+	}
 }
 
 export default initOptionsModal;
