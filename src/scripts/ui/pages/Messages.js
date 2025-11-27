@@ -5,6 +5,7 @@ import updateSystemTime from '@/scripts/ui/components/SystemTime.js';
 import initMiniModal from '@/scripts/ui/components/Modals/MiniModal.js';
 import initStartChatModal from '@/scripts/ui/components/Modals/StartChatModal.js';
 import initCreateGroupModal from '@/scripts/ui/components/Modals/CreateGroupModal.js';
+import initOptionsModal from '@/scripts/ui/components/Modals/OptionsChatModal.js';
 
 import { initChatsController } from '@/scripts/controllers/chatsController.js';
 
@@ -16,6 +17,7 @@ const initMessages = () => {
   initMiniModal();
   initStartChatModal();
   initCreateGroupModal();
+  initOptionsModal();
 
   initChatsController();
 

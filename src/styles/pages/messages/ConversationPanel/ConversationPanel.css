@@ -48,6 +48,7 @@
 .conversation-actions {
     display: flex;
     gap: 15px;
+    position: relative;
 }
 
 .action-icon {
