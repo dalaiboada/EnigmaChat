@@ -1,6 +1,7 @@
 // Lógica pura de UI y renderizado
 
 import { handleCreateGroup } from '@/scripts/controllers/chatsController.js';
+import { findSomeUsers } from '@/scripts/services/users.js';
 
 // Elementos del DOM
 export const modalElements = {
@@ -24,10 +25,10 @@ const renderUserItem = (user, onUserSelect) => {
 
   $userItem.className = 'user-item';
   $userItem.innerHTML = `
-    <div class="user-avatar">${user.name.charAt(0).toUpperCase()}</div>
+    <div class="user-avatar">${user.username.charAt(0).toUpperCase()}</div>
     <div class="user-info">
-      <div class="user-name">${user.name.toUpperCase()}</div>
-      <div class="user-status">${user.status || 'En línea'}</div>
+      <div class="user-name">${user.username.toUpperCase()}</div>
+      <div class="user-status">${'Invitar usuario'}</div>
     </div>
   `;
   
@@ -42,6 +43,7 @@ const renderUsersList = (users, onUserSelect) => {
   
   usersList.innerHTML = '';
   users.forEach(user => {
+    console.log(user)
     usersList.appendChild(renderUserItem(user, onUserSelect));
   });
 };
@@ -54,7 +56,7 @@ const renderSelectedUsers = (selectedUsers, onRemoveUser) => {
     const userElement = document.createElement('div');
     userElement.classList.add('selected-user');
     userElement.innerHTML = `
-      <span>${user.name}</span>
+      <span>${user.username}</span>
       <i class="fas fa-times"></i>
     `;
     
@@ -68,8 +70,11 @@ const renderSelectedUsers = (selectedUsers, onRemoveUser) => {
 };
 
 const handleUserSelect = user => {
+  // Limpiar el input
+  modalElements.searchInput.value = "";
+  modalElements.searchInput.focus();
   // Evitar duplicados antes de agregar
-  if (!selectedUsers.some(u => u.name === user.name)) {
+  if (!selectedUsers.some(u => u.username === user.username)) {
       selectedUsers.push(user);
   }
   // Actualiza la lista de seleccionados
@@ -103,13 +108,14 @@ const clearSelectedUsers = () => {
 };
 
 const getFormData = () => {
-  // Obtener permisos activos (sus data-permission)
+  // Obtener permisos activos
   const activePermissions = Array.from(modalElements.permissionToggles)
-    .filter(toggle => toggle.classList.contains('active'))
-    .map(toggle => toggle.dataset.permission);
+    .map(toggle => toggle.classList.contains('active'));
   
   // Obtener nombres de participantes seleccionados
-  const participants = selectedUsers.map(user => user.name.toLowerCase());
+  const participants = selectedUsers.map(user => user.username.toLowerCase());
+  const user = JSON.parse(localStorage.getItem("user"));
+  participants.unshift(user.username);
   
   return {
     name: modalElements.groupNameInput.value.trim(),
@@ -191,14 +197,18 @@ const initCreateGroupModal = () => {
   
   // Mock de usuarios para desarrollo
   const mockUsers = [ 
-    { name: 'Lilith', status: 'En línea' },
-    { name: 'Eva', status: 'En línea' },
-    { name: 'Daniel', status: 'En línea' }
+    { id: 'Lilith', username: 'lilit', email: 'dalaililith@gmail.com', imageUrl: null },
+    { id: 'Eva', username: 'eva', email: 'eva@gmail.com', imageUrl: null },
+    { id: 'Daniel', username: 'daniel', email: 'daniel@gmail.com', imageUrl: null }
   ];
   
-  modalElements.searchInput.addEventListener('input', e => {
+  modalElements.searchInput.addEventListener('input', async e => {
     console.log(e.target.value);
-    renderUsersList(mockUsers, handleUserSelect);
+    if (e.target.value.length < 3) return;
+
+    const users = await findSomeUsers(e.target.value);
+    console.log(users);
+    renderUsersList(users, handleUserSelect);
   });
 }
 

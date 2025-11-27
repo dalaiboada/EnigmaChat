@@ -1,8 +1,5 @@
 // Servicio para gestionar chats - Llamadas a la API
-
-import { authService } from './auth.js';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+import { authenticatedFetch } from '@/scripts/utils/services.js';
 
 // -- FUNCIONES AUXILIARES 
 
@@ -38,44 +35,12 @@ const transformChatsData = (apiChats, currentUsername) => {
   });
 };
 
-// Realiza una petición autenticada a la API
-const authenticatedFetch = async (endpoint, options = {}) => {
-  // Verificar autenticación
-  if (!authService.isAuthenticated()) throw new Error('Usuario no autenticado');
-  
-  const token = authService.getToken();
-  
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      ...options.headers
-    },
-    credentials: 'include'
-  });
-  
-  // Manejar errores de autenticación
-  if (response.status === 401) {
-    authService.logout();
-    window.location.href = '/index.html';
-    throw new Error('Sesión expirada. Por favor, inicia sesión nuevamente');
-  }
-  
-  // Verificar si la respuesta es exitosa
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`);
-  }
-  
-  return response.json();
-};
-
 // -- FUNCIONES PÚBLICAS
 
 // TODO: Carga la lista de chats del usuario autenticado desde la API
 export const loadChats = async () => {
   try {
+    console.log("isAuthenticated: ", localStorage.getItem('isAuthenticated'));
     const apiChats = await authenticatedFetch('/chats', {
       method: 'GET'
     });
@@ -176,15 +141,15 @@ export const createGroup = async (groupData) => {
     // Preparar datos para la API
     const requestBody = {
       name,
-      description: description || null,
+      description: description || undefined,
       participants,
-      isOpenChat: permissions?.includes('1') || true,
-      isEditable: permissions?.includes('2') || false,
-      canInvite: permissions?.includes('3') || true,
+      isOpenChat: permissions[0] || true,
+      isEditable: permissions[1] || false,
+      canInvite: permissions[2] || true,
       enigmaMasterKey: enigmaMasterKey || `key_${Date.now()}`
     };
     
-    const newGroup = await authenticatedFetch('/chats/groups', {
+    const newGroup = await authenticatedFetch('/chats/group', {
       method: 'POST',
       body: JSON.stringify(requestBody)
     });

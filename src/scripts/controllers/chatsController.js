@@ -1,14 +1,16 @@
 // Controlador de chats - Orquesta la lógica entre servicio y UI
 
-import { loadChats, loadChatsMock, createGroup, createGroupMock } from '@/scripts/services/chatsService.js';
+import { loadChats, createGroup, createGroupMock } from '@/scripts/services/chatsService.js';
 import { renderChatList, setActiveChat, addChatToList } from '@/scripts/ui/components/ChatList.js';
+import { loadChatMessages } from '@/scripts/controllers/messagesController.js';
+import { scrollToBottom } from '@/scripts/ui/components/ConversationPanel';
 
 // -- ESTADO DEL CONTROLADOR
 let currentChats = [];
 let activeChatId = null;
 
 // -- CONFIGURACIÓN
-const USE_MOCK_DATA = true; // Cambiar a false cuando la API esté lista
+const USE_MOCK_DATA = false; // Cambiar a false cuando la API esté lista
 
 // -- FUNCIONES PÚBLICAS
 
@@ -21,7 +23,8 @@ export const initChatsController = async () => {
     console.log('Inicializando controlador de chats...');
     
     // Cargar chats (mock o API según configuración)
-    const chats = USE_MOCK_DATA ? await loadChatsMock() : await loadChats();
+    const chats = await loadChats();
+    console.log(chats);
     
     // Guardar en estado
     currentChats = chats;
@@ -54,9 +57,9 @@ export const handleChatClick = async (chatId) => {
     // Guardar en estado
     activeChatId = chatId;
     
-    // TODO: Cargar mensajes del chat
-    // const messages = await loadMessages(chatId);
-    // renderMessages(messages);
+    //  Cargar mensajes del chat
+    await loadChatMessages(chatId);
+    scrollToBottom();
     
   } catch (error) {
     console.error(`Error al seleccionar chat ${chatId}:`, error);
@@ -70,7 +73,7 @@ export const reloadChats = async () => {
   try {
     console.log('Recargando chats...');
     
-    const chats = USE_MOCK_DATA ? await loadChatsMock() : await loadChats();
+    const chats = await loadChats();
     currentChats = chats;
     renderChatList(chats);
     

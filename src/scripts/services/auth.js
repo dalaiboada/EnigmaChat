@@ -3,40 +3,6 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;// || 'http://localhost:3
 
 // Clase principal del servicio de autenticación
 class AuthService {
-  constructor() {
-    this.token = localStorage.getItem('authToken') || null;
-    this.temp2faToken = null;
-  }
-
-  async _fetch(endpoint, options = {}) {
-    const url = `${API_BASE_URL}${endpoint}`;
-
-    const headers = {
-      'Content-Type': 'application/json',
-      ...(this.token && { Authorization: `Bearer ${this.token}` }),
-      ...(options.headers || {}),
-    };
-
-    const config = {
-      ...options,
-      headers,
-    };
-
-    if (config.body && typeof config.body === 'object') {
-      config.body = JSON.stringify(config.body);
-    }
-
-    const response = await fetch(url, config);
-    const data = await response.json();
-
-    if (!response.ok) {
-      const error = new Error(data.message || 'Error en la petición');
-      error.status = response.status;
-      throw error;
-    }
-
-    return data;
-  }
 
   // Login user
   async login(email, password) {
@@ -69,6 +35,9 @@ class AuthService {
       }
 
       // Parsear la respuesta y retornar los datos
+
+      localStorage.setItem('isAuthenticated', true);
+
       const data = await response.json();
       return {
         user: data.user,

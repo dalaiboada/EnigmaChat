@@ -114,7 +114,7 @@
         </div>
         
         <!-- Contenedor de mensajes -->
-        <div class="messages-container">
+        <div class="messages-container" id="messagesContainer">
           <!-- Separador de tiempo -->
           <div class="date-separator">SÁBADO</div>
           
@@ -155,13 +155,13 @@
         </div>
         
         <!-- Contenedor para enviar mensajes -->
-        <div class="input-container">
-            <textarea class="message-input" placeholder="Escribe un mensaje..."></textarea>
+        <form id="message-form" class="input-container">
+            <textarea id="message-input" class="message-input" placeholder="Escribe un mensaje..."></textarea>
             
-            <div class="send-button">
-                <i class="fas fa-paper-plane"></i>
-            </div>
-        </div>
+            <button type="submit" class="send-button">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
       </div>
     </main>
 
