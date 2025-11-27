@@ -468,3 +468,78 @@
     background: rgba(0, 255, 255, 0.2);
     box-shadow: 0 0 15px var(--color-cyan);
 }
+
+/* MODAL DE OPCIONES DEL CHAT */
+.chat-options-modal {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 12;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.chat-options-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.chat-options-content {
+    background: rgba(10, 15, 25, 0.95);
+    border: 1px solid var(--color-cyan);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 0 15px var(--color-glow);
+    width: 250px;
+}
+
+.chat-option-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.chat-option-item:last-child {
+    border-bottom: none;
+}
+
+.chat-option-text {
+    color: var(--color-text);
+    font-size: 14px;
+}
+
+.chat-option-toggle {
+    width: 40px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chat-option-toggle.active {
+    background: rgba(0, 255, 255, 0.3);
+}
+
+.chat-option-toggle::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-text);
+    transition: all 0.3s ease;
+}
+
+.chat-option-toggle.active::after {
+    left: calc(100% - 18px);
+    background: var(--color-cyan);
+    box-shadow: 0 0 8px var(--color-cyan);
+}
