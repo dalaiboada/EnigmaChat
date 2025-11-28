@@ -4,11 +4,20 @@ import { loadChats, createGroup, createGroupMock } from '@/scripts/services/chat
 import { renderChatList, setActiveChat, addChatToList } from '@/scripts/ui/components/ChatList.js';
 import { loadChatMessages } from '@/scripts/controllers/messagesController.js';
 import { scrollToBottom } from '@/scripts/ui/components/ConversationPanel';
+import { toggleState, updateInputState, updateToggleState } from '../ui/components/Modals/OptionsChatModal';
+import { updateChatState } from '../services/messages';
+import { getGroupMembers } from '../services/groups';
+import { sendChatStateChange, onChatStateChange } from '../services/socket';
+
+const $isOpenToggle = document.getElementById('isOpenToggle');
 
 // -- ESTADO DEL CONTROLADOR
 export let currentChats = [];
+export let members = [];
+export let userRole = null;
 export let activeChatId = null;
 export let activeChat = null;
+const user = JSON.parse(localStorage.getItem('user'));
 
 // -- CONFIGURACIÓN
 const USE_MOCK_DATA = false; // Cambiar a false cuando la API esté lista
@@ -29,7 +38,6 @@ export const initChatsController = async () => {
     
     // Guardar en estado
     currentChats = chats;
-    activeChat = currentChats.find(chat => chat.id === activeChatId);
     
     // Renderizar en UI
     renderChatList(chats);
@@ -38,6 +46,43 @@ export const initChatsController = async () => {
     
     // Configurar event listeners
     setupChatListeners();
+    $isOpenToggle.addEventListener('click', async (event) => {
+      event.stopPropagation();
+      if (userRole !== 'ADMIN') {
+        alert("Solo los administradores pueden abrir/cerrar chats")
+        return;
+      };
+      
+      const newState = !activeChat.isOpenChat;
+      
+      // Actualizar en el servidor
+      await updateChatState(activeChat.id, newState);
+      
+      // Emitir evento de socket para sincronizar con otros usuarios
+      sendChatStateChange(activeChat.id, newState);
+      
+      // Actualizar estado local
+      activeChat.isOpenChat = newState;
+      toggleState(activeChat.id, !newState, () => {}); // Solo actualiza UI
+    });
+    
+    // Escuchar cambios de estado de chat desde otros usuarios
+    onChatStateChange((payload) => {
+      console.log('📢 Chat state changed:', payload);
+      
+      // Si es el chat activo, actualizar UI
+      if (payload.chatId === activeChatId) {
+        activeChat.isOpenChat = payload.isOpenChat;
+        updateToggleState(payload.isOpenChat);
+        updateInputState(userRole === 'ADMIN' ? true : payload.isOpenChat);
+      }
+      
+      // Actualizar en la lista de chats
+      const chat = currentChats.find(c => c.id === payload.chatId);
+      if (chat) {
+        chat.isOpenChat = payload.isOpenChat;
+      }
+    });
     
   } catch (error) {
     console.error('❌ Error al inicializar chats:', error);
@@ -58,8 +103,17 @@ export const handleChatClick = async (chatId) => {
     
     // Guardar en estado
     activeChatId = chatId;
+    activeChat = currentChats.find(chat => chat.id === activeChatId);
+    console.log(activeChat);
 
     //updateChatState(chatId, true);
+    members = await getGroupMembers(chatId);
+    console.log("members", members);
+    userRole = members.find(member => member.userId === user.id).role;
+    console.log("userRole", userRole);
+
+    updateToggleState(activeChat.isOpenChat);
+    updateInputState(userRole === 'ADMIN' ? true : activeChat.isOpenChat);
     
     //  Cargar mensajes del chat
     await loadChatMessages(chatId);

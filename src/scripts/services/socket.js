@@ -1,6 +1,6 @@
 import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js';
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'http://localhost:3000';
+const WS_URL = import.meta.env.VITE_WS_URL || 'https://enigmachat-server.proceruss.com';
 
 let socket = null;
 
@@ -70,6 +70,14 @@ export const sendStopTyping = (chatId) => {
   socket.emit('stop-typing', chatId);
 };
 
+export const sendChatStateChange = (chatId, isOpenChat) => {
+  if (!socket) return;
+  socket.emit('chat-state-change', {
+    chatId,
+    isOpenChat,
+  });
+};
+
 // Event listeners
 const addListener = (event, callback) => {
   if (!socket) return;
@@ -92,4 +100,8 @@ export const onTyping = (callback) => {
 
 export const onStopTyping = (callback) => {
   addListener('stop-typing', callback);
+};
+
+export const onChatStateChange = (callback) => {
+  addListener('chat-state-change', callback);
 };

@@ -70,8 +70,8 @@ export const sendMessage = async (chatId, ciphertext) => {
 
 // TODO: [Revisar] Fue autocompletado
 export const updateChatState = async (chatId, isOpen) => { 
-	const data = await authenticatedFetch(`/chats/${chatId}`, {
-		method: 'POST',
+	const data = await authenticatedFetch(`/groups/${chatId}`, {
+		method: 'PUT',
 		body: JSON.stringify({ isOpenChat: isOpen })
 	});
 

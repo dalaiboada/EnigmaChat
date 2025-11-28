@@ -2,7 +2,6 @@
 
 import { loadMessages, sendMessage as sendApiMessage, updateChatStateMock } from '@/scripts/services/messages.js';
 import { renderAllMessages, addMessage, clearMessages } from '@/scripts/ui/components/ConversationPanel.js';
-import { toggleState } from '@/scripts/ui/components/Modals/OptionsChatModal.js';
 import { 
   connect, 
   joinChat, 
@@ -27,7 +26,6 @@ const user = JSON.parse(localStorage.getItem('user'));
 const $messageForm = document.getElementById('message-form');
 const $messageInput = document.getElementById('message-input');
 const $conversationStatus = document.querySelector('.conversation-status');
-const $isOpenToggle = document.getElementById('isOpenToggle');
 
 $messageInput.addEventListener('input', () => {
   if (!currentChatId) return;
@@ -204,13 +202,4 @@ export const initMessagesController = () => {
       $conversationStatus.style.color = '';
     }
   });
-	
-	// Configurar el toggle con un callback que captura chatId por closure
-	toggleState($isOpenToggle.classList.contains('active'), (isOpen) => {
-    const chat = activeChat;
-    console.log('chat:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ', chat);
-    chat.chatId 
-			? updateChatState(chat.chatId, isOpen) 
-			: console.log('No hay chat activo para actualizar el estado');
-	});
 }

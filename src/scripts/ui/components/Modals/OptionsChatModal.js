@@ -1,11 +1,13 @@
+import { userRole } from '@/scripts/controllers/chatsController.js';
+
 // Llamar elementos del DOM
+
 
 const $chatOptionsModal = document.getElementById('chatOptionsModal');
 const $chatOptionsBtn = document.getElementById('chatOptionsBtn');
 const $isOpenToggle = document.getElementById('isOpenToggle');
 const $messageInput = document.getElementById('message-input');
 const $sendButton = document.querySelector('.send-button');
-
 
 // initModal()
 const initOptionsModal = () => {
@@ -34,28 +36,28 @@ function closeModal() {
 }
 
 // Toggle del estado de chat abierto/cerrado
-export function toggleState(isOpenChat, handleIsOpenToggle) {
-	$isOpenToggle.addEventListener('click', e => {
-		e.stopPropagation();
-		isOpenChat = !isOpenChat;
-		
-		updateToggleState(isOpenChat); // Actualizar estado del toggle
+export function toggleState(chatId, isOpenChat, handleIsOpenToggle) {	
+	console.log("isOpenChat", isOpenChat);
+	isOpenChat = !isOpenChat;
+	updateToggleState(isOpenChat); // Actualizar estado del toggle
+	if (userRole !== 'ADMIN') {
 		updateInputState(isOpenChat);  // Actualizar estado de inputs de mensaje
-		
-		// Ejecutar callback solo si existe, pasando el nuevo estado
-		if (handleIsOpenToggle && typeof handleIsOpenToggle === 'function') 
-			handleIsOpenToggle(isOpenChat);
-	});
+	}
+	
+	// Ejecutar callback solo si existe, pasando el nuevo estado
+	if (handleIsOpenToggle && typeof handleIsOpenToggle === 'function') {
+		handleIsOpenToggle(chatId, isOpenChat);
+	}
 }
 
-function updateToggleState(isOpenChat) {
+export function updateToggleState(isOpenChat) {
 	isOpenChat
 		? $isOpenToggle.classList.add('active') 
 		: $isOpenToggle.classList.remove('active');
 }
 
 // Habilitar/deshabilitar inputs según el estado del chat
-function updateInputState(isOpenChat) {
+export function updateInputState(isOpenChat) {
 	if (isOpenChat) {
 		// Chat abierto: habilitar inputs
 		$messageInput.classList.remove('close');
