@@ -6,8 +6,9 @@ import { loadChatMessages } from '@/scripts/controllers/messagesController.js';
 import { scrollToBottom } from '@/scripts/ui/components/ConversationPanel';
 
 // -- ESTADO DEL CONTROLADOR
-let currentChats = [];
-let activeChatId = null;
+export let currentChats = [];
+export let activeChatId = null;
+export let activeChat = null;
 
 // -- CONFIGURACIÓN
 const USE_MOCK_DATA = false; // Cambiar a false cuando la API esté lista
@@ -28,6 +29,7 @@ export const initChatsController = async () => {
     
     // Guardar en estado
     currentChats = chats;
+    activeChat = currentChats.find(chat => chat.id === activeChatId);
     
     // Renderizar en UI
     renderChatList(chats);
@@ -56,6 +58,8 @@ export const handleChatClick = async (chatId) => {
     
     // Guardar en estado
     activeChatId = chatId;
+
+    //updateChatState(chatId, true);
     
     //  Cargar mensajes del chat
     await loadChatMessages(chatId);
@@ -161,3 +165,4 @@ const setupChatListeners = () => {
   
   console.log('✅ Event listeners configurados');
 };
+

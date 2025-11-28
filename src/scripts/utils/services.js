@@ -3,8 +3,8 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localho
 // Realiza una petición autenticada a la API
 export const authenticatedFetch = async (endpoint, options = {}) => {
 
-  const token = localStorage.getItem('authToken');
-  if (!token) {
+  const user = localStorage.getItem('user');
+  if (!user) {
     throw new Error('Usuario no autenticado');
   }
   

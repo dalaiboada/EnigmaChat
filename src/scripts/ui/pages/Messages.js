@@ -19,7 +19,7 @@ const initMessages = () => {
   initStartChatModal();
   initCreateGroupModal();
   initOptionsModal();
-
+  
   initChatsController();
   initMessagesController();
 

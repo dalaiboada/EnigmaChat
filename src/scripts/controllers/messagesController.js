@@ -1,15 +1,45 @@
 // Controlador de mensajes - Orquesta la carga y renderizado de mensajes
 
-import { loadMessages, sendMessage, updateChatStateMock } from '@/scripts/services/messages.js';
+import { loadMessages, sendMessage as sendApiMessage, updateChatStateMock } from '@/scripts/services/messages.js';
 import { renderAllMessages, addMessage, clearMessages } from '@/scripts/ui/components/ConversationPanel.js';
 import { toggleState } from '@/scripts/ui/components/Modals/OptionsChatModal.js';
+import { 
+  connect, 
+  joinChat, 
+  leaveChat, 
+  sendMessage as sendSocketMessage, 
+  sendTyping, 
+  sendStopTyping, 
+  onMessage, 
+  onTyping, 
+  onStopTyping 
+} from '@/scripts/services/socket.js';
+import { updateChatState } from '../services/messages';
+import { activeChat } from './chatsController.js';
 
 // -- ESTADO DEL CONTROLADOR
 let currentChatId = null;
+export let currentChatData = null;
 let currentMessages = [];
+let typingTimeout = null;
+const user = JSON.parse(localStorage.getItem('user'));
 
 const $messageForm = document.getElementById('message-form');
 const $messageInput = document.getElementById('message-input');
+const $conversationStatus = document.querySelector('.conversation-status');
+const $isOpenToggle = document.getElementById('isOpenToggle');
+
+$messageInput.addEventListener('input', () => {
+  if (!currentChatId) return;
+
+  sendTyping(currentChatId);
+
+  if (typingTimeout) clearTimeout(typingTimeout);
+
+  typingTimeout = setTimeout(() => {
+    sendStopTyping(currentChatId);
+  }, 2000);
+});
 
 $messageForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -45,6 +75,9 @@ export const loadChatMessages = async (chatId) => {
     // Renderizar en UI
     renderAllMessages(messages, true);
     
+    // Socket: Unirse al chat
+    joinChat(chatId);
+
     console.log(`✅ ${messages.length} mensajes cargados correctamente`);
     
   } catch (error) {
@@ -72,7 +105,10 @@ export const handleSendMessage = async (content) => {
     console.log('Enviando mensaje...', content);
     
     // Enviar mensaje (mock o API según configuración)
-    const newMessage = await sendMessage(currentChatId, content);
+    const newMessage = await sendApiMessage(currentChatId, content);
+
+    // Socket: Enviar mensaje
+    sendSocketMessage(currentChatId, content, user.username);
     
     // Agregar al estado
     currentMessages.push(newMessage);
@@ -96,6 +132,9 @@ export const handleSendMessage = async (content) => {
  * Limpia los mensajes del chat actual
  */
 export const clearCurrentChat = () => {
+  if (currentChatId) {
+    leaveChat(currentChatId);
+  }
   currentChatId = null;
   currentMessages = [];
   clearMessages();
@@ -132,21 +171,46 @@ export const reloadCurrentChat = async () => {
 export const initMessagesController = () => {
 	console.log('MessagesController.js loaded');
 
-	// Obtener el chatId actual (por ahora desde mock, luego desde getCurrentChatId())
-	const chatId = getStateChatDataMock().chatId;
+  // Inicializar socket
+  connect();
+
+  // Configurar listeners de socket
+  onMessage((payload) => {
+    console.log('📩 Mensaje recibido:', payload);
+    if (payload.chatId === currentChatId) {
+      const message = {
+        id: Date.now().toString(), // ID temporal
+        content: payload.ciphertext,
+        sender: payload.sender,
+        timestamp: payload.timestamp,
+        isOwn: false,
+      };
+      currentMessages.push(message);
+      addMessage(message);
+    }
+  });
+
+  onTyping((payload) => {
+    if (payload.chatId === currentChatId) {
+      // TODO: Mostrar quién está escribiendo si tenemos el nombre
+      $conversationStatus.textContent = 'Escribiendo...';
+      $conversationStatus.style.color = 'var(--color-primary)';
+    }
+  });
+
+  onStopTyping((payload) => {
+    if (payload.chatId === currentChatId) {
+      $conversationStatus.textContent = 'En línea • ';
+      $conversationStatus.style.color = '';
+    }
+  });
 	
 	// Configurar el toggle con un callback que captura chatId por closure
-	toggleState((isOpen) => {
-		chatId 
-			? updateChatStateMock(chatId, isOpen) 
+	toggleState($isOpenToggle.classList.contains('active'), (isOpen) => {
+    const chat = activeChat;
+    console.log('chat:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ', chat);
+    chat.chatId 
+			? updateChatState(chat.chatId, isOpen) 
 			: console.log('No hay chat activo para actualizar el estado');
 	});
 }
-
-function getStateChatDataMock(){
-  return {
-    chatId: 'm5why9xU',
-    isOpen: true
-  }
-}
-

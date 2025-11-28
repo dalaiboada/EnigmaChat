@@ -56,6 +56,7 @@ const handleSubmit = async (e) => {
 
     if (result && result.token) {
       localStorage.setItem('user', JSON.stringify(result.user));
+      localStorage.setItem('wsToken', result.token);
       window.location.href = '/messages';
     }
   } catch (error) {

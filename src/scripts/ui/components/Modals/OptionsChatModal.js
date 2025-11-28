@@ -6,8 +6,6 @@ const $isOpenToggle = document.getElementById('isOpenToggle');
 const $messageInput = document.getElementById('message-input');
 const $sendButton = document.querySelector('.send-button');
 
-// TODO: Este valor debería venir del estado del chat actual de la API
-let isOpenChat = true;
 
 // initModal()
 const initOptionsModal = () => {
@@ -36,13 +34,13 @@ function closeModal() {
 }
 
 // Toggle del estado de chat abierto/cerrado
-export function toggleState(handleIsOpenToggle) {
+export function toggleState(isOpenChat, handleIsOpenToggle) {
 	$isOpenToggle.addEventListener('click', e => {
 		e.stopPropagation();
 		isOpenChat = !isOpenChat;
 		
-		updateToggleState(); // Actualizar estado del toggle
-		updateInputState();  // Actualizar estado de inputs de mensaje
+		updateToggleState(isOpenChat); // Actualizar estado del toggle
+		updateInputState(isOpenChat);  // Actualizar estado de inputs de mensaje
 		
 		// Ejecutar callback solo si existe, pasando el nuevo estado
 		if (handleIsOpenToggle && typeof handleIsOpenToggle === 'function') 
@@ -50,14 +48,14 @@ export function toggleState(handleIsOpenToggle) {
 	});
 }
 
-function updateToggleState() {
+function updateToggleState(isOpenChat) {
 	isOpenChat
 		? $isOpenToggle.classList.add('active') 
 		: $isOpenToggle.classList.remove('active');
 }
 
 // Habilitar/deshabilitar inputs según el estado del chat
-function updateInputState() {
+function updateInputState(isOpenChat) {
 	if (isOpenChat) {
 		// Chat abierto: habilitar inputs
 		$messageInput.classList.remove('close');

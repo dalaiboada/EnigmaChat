@@ -30,7 +30,8 @@ const transformChatsData = (apiChats, currentUsername) => {
       id: chat.id,
       name: chatName,
       isGroup,
-      isActive: false
+      isActive: false,
+      isOpenChat: chat.isOpenChat,
     };
   });
 };

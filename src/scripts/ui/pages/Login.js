@@ -99,6 +99,7 @@ const handleLogin = async (e) => {
     } else { // Si no se requiere 2FA
       console.log('Login successful, redirecting to messages');
       localStorage.setItem('user', JSON.stringify(result.user));
+      localStorage.setItem('wsToken', result.token);
       window.location.href = '/messages';
     }
   } catch (error) { // Manejar errores
