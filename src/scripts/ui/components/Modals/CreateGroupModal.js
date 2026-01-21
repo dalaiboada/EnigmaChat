@@ -24,13 +24,25 @@ const renderUserItem = (user, onUserSelect) => {
   const $userItem = document.createElement('div');
 
   $userItem.className = 'user-item';
-  $userItem.innerHTML = `
-    <div class="user-avatar">${user.username.charAt(0).toUpperCase()}</div>
-    <div class="user-info">
-      <div class="user-name">${user.username.toUpperCase()}</div>
-      <div class="user-status">${'Invitar usuario'}</div>
-    </div>
-  `;
+  
+  const $avatar = document.createElement('div');
+  $avatar.className = 'user-avatar';
+  $avatar.textContent = user.username.charAt(0).toUpperCase();
+  $userItem.appendChild($avatar);
+
+  const $info = document.createElement('div');
+  $info.className = 'user-info';
+  $userItem.appendChild($info);
+
+  const $name = document.createElement('div');
+  $name.className = 'user-name';
+  $name.textContent = user.username.toUpperCase();
+  $info.appendChild($name);
+
+  const $status = document.createElement('div');
+  $status.className = 'user-status';
+  $status.textContent = 'Invitar usuario';
+  $info.appendChild($status);
   
   $userItem.addEventListener('click', () => onUserSelect(user));
   
@@ -41,7 +53,7 @@ const renderUsersList = (users, onUserSelect) => {
   const { usersList } = modalElements;
   if (!usersList) return;
   
-  usersList.innerHTML = '';
+  usersList.replaceChildren();
   users.forEach(user => {
     console.log(user)
     usersList.appendChild(renderUserItem(user, onUserSelect));
@@ -50,17 +62,21 @@ const renderUsersList = (users, onUserSelect) => {
 
 const renderSelectedUsers = (selectedUsers, onRemoveUser) => {
   const { selectedUsersContainer } = modalElements;
-  selectedUsersContainer.innerHTML = '';
+  selectedUsersContainer.replaceChildren();
   
   selectedUsers.forEach(user => {
     const userElement = document.createElement('div');
     userElement.classList.add('selected-user');
-    userElement.innerHTML = `
-      <span>${user.username}</span>
-      <i class="fas fa-times"></i>
-    `;
     
-    userElement.querySelector('i').addEventListener('click', (e) => {
+    const $name = document.createElement('span');
+    $name.textContent = user.username;
+    userElement.appendChild($name);
+
+    const $icon = document.createElement('i');
+    $icon.className = 'fas fa-times';
+    userElement.appendChild($icon);
+    
+    $icon.addEventListener('click', (e) => {
       e.stopPropagation();
       onRemoveUser(user);
     });
@@ -98,8 +114,8 @@ const clearForm = () => {
   modalElements.groupNameInput.value = '';
   modalElements.descriptionInput.value = '';
   modalElements.searchInput.value = '';
-  modalElements.usersList.innerHTML = '';
-  modalElements.selectedUsersContainer.innerHTML = '';
+  modalElements.usersList.replaceChildren();
+  modalElements.selectedUsersContainer.replaceChildren();
 };
 
 const clearSelectedUsers = () => {

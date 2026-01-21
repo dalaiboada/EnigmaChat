@@ -25,11 +25,23 @@ export const renderMessage = message =>  {
 	$message.className = `message ${ isOwn ? 'own' : 'other'  }`
 	$message.dataset.messageId = id; //para después
 
-	$message.innerHTML = `
-    ${!isOwn && sender ? `<div class="message-user" style="margin-bottom: 10px;">${sender.toUpperCase()}</div>` : ''}
-    <div class="message-text">${content}</div>
-    <div class="message-time">${formatMessageTime(timestamp)}</div>
-  `;
+    if (!isOwn && sender) {
+        const $sender = document.createElement('div');
+        $sender.className = 'message-user';
+        $sender.style.marginBottom = '10px';
+        $sender.textContent = sender.toUpperCase();
+        $message.appendChild($sender);
+    }
+
+    const $text = document.createElement('div');
+    $text.className = 'message-text';
+    $text.textContent = content;
+    $message.appendChild($text);
+
+    const $time = document.createElement('div');
+    $time.className = 'message-time';
+    $time.textContent = formatMessageTime(timestamp);
+    $message.appendChild($time);
 
 	return $message;
 }
@@ -37,7 +49,7 @@ export const renderMessage = message =>  {
 // renderAllMessages
 export const renderAllMessages = (messages, clearContainer = true) => {
   // Limpiar contenedor si se especifica
-  if (clearContainer) $messagesContainer.innerHTML = '';
+  if (clearContainer) $messagesContainer.replaceChildren();
   
   // Agrupar mensajes por fecha para agregar separadores
   let lastDate = null;
@@ -83,7 +95,7 @@ export const addMessage = message => {
 
 export const clearMessages = () => {
   if ($messagesContainer) {
-    $messagesContainer.innerHTML = '';
+    $messagesContainer.replaceChildren();
   }
 };
 

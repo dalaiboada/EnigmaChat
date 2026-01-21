@@ -14,9 +14,17 @@ const setLoading = (isLoading) => {
 
   buttons.forEach((button) => {
     button.disabled = isLoading;
-    button.innerHTML = isLoading
-      ? '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...'
-      : button.getAttribute('data-original-text') || button.textContent;
+    if (isLoading) {
+        button.replaceChildren();
+        const spinner = document.createElement('span');
+        spinner.className = 'spinner-border spinner-border-sm';
+        spinner.setAttribute('role', 'status');
+        spinner.setAttribute('aria-hidden', 'true');
+        button.appendChild(spinner);
+        button.appendChild(document.createTextNode(' Procesando...'));
+    } else {
+        button.textContent = button.getAttribute('data-original-text') || button.textContent;
+    }
   });
 };
 

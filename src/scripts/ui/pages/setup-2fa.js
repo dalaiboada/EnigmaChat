@@ -24,9 +24,15 @@ const setLoading = (isLoading) => {
   const submitButton = verificationForm?.querySelector('button[type="submit"]');
   if (submitButton) {
     submitButton.disabled = isLoading;
-    submitButton.innerHTML = isLoading
-      ? '<span class="spinner"></span> Verificando...'
-      : 'VERIFICAR';
+    if (isLoading) {
+        submitButton.replaceChildren();
+        const spinner = document.createElement('span');
+        spinner.className = 'spinner';
+        submitButton.appendChild(spinner);
+        submitButton.appendChild(document.createTextNode(' Verificando...'));
+    } else {
+        submitButton.textContent = 'VERIFICAR';
+    }
   }
 };
 

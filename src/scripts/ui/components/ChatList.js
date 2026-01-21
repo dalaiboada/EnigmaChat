@@ -71,22 +71,33 @@ export const createChatItem = chat => {
   $chatItem.className = `chat-item${isActive ? ' active' : ''}`;
   $chatItem.dataset.chatId = id;
   
-  // Generar HTML condicionalmente
-  const previewHTML = lastMessage 
-    ? `<div class="chat-preview">${formatChatPreview(lastMessage, isGroup)}</div>` 
-    : '';
-  const timeHTML = lastMessage 
-    ? `<div class="chat-time">${formatChatTime(lastMessage.timestamp)}</div>` 
-    : '';
-  
-  $chatItem.innerHTML = `
-    <div class="chat-avatar">${generateChatInitials(name)}</div>
-    <div class="chat-info">
-      <div class="chat-name">${name}</div>
-      ${previewHTML}
-    </div>
-    ${timeHTML}
-  `;
+  const $avatar = document.createElement('div');
+  $avatar.className = 'chat-avatar';
+  $avatar.textContent = generateChatInitials(name);
+  $chatItem.appendChild($avatar);
+
+  const $info = document.createElement('div');
+  $info.className = 'chat-info';
+  $chatItem.appendChild($info);
+
+  const $name = document.createElement('div');
+  $name.className = 'chat-name';
+  $name.textContent = name;
+  $info.appendChild($name);
+
+  if (lastMessage) {
+      const $preview = document.createElement('div');
+      $preview.className = 'chat-preview';
+      $preview.textContent = formatChatPreview(lastMessage, isGroup);
+      $info.appendChild($preview);
+  }
+
+  if (lastMessage) {
+      const $time = document.createElement('div');
+      $time.className = 'chat-time';
+      $time.textContent = formatChatTime(lastMessage.timestamp);
+      $chatItem.appendChild($time);
+  }
   
   return $chatItem;
 };
@@ -102,7 +113,7 @@ export const renderChatList = chats => {
   }
   
   // Limpiar lista actual
-  chatListContainer.innerHTML = '';
+  chatListContainer.replaceChildren();
   
   // Renderizar cada chat
   chats.forEach(chat => {
@@ -185,6 +196,6 @@ export const setActiveChat = chatId => {
  */
 export const clearChatList = () => {
   if (chatListContainer) {
-    chatListContainer.innerHTML = '';
+    chatListContainer.replaceChildren();
   }
 };
