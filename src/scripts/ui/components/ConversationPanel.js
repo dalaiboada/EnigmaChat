@@ -17,9 +17,22 @@ const $messagesContainer = document.getElementById('messagesContainer')
 ]
 */
 
+import CryptoJS from 'crypto-js';
+
 // renderMessage
 export const renderMessage = message =>  {
 	const  { id, content, sender, timestamp, isOwn } = message;
+
+    let decryptedContent = content;
+    try {
+        const bytes = CryptoJS.AES.decrypt(content, 'secret-key');
+        const originalText = bytes.toString(CryptoJS.enc.Utf8);
+        if (originalText) {
+            decryptedContent = originalText;
+        }
+    } catch (e) {
+        console.error('Error decrypting message:', e);
+    }
 
 	const $message = document.createElement('div');
 	$message.className = `message ${ isOwn ? 'own' : 'other'  }`
@@ -35,7 +48,7 @@ export const renderMessage = message =>  {
 
     const $text = document.createElement('div');
     $text.className = 'message-text';
-    $text.textContent = content;
+    $text.textContent = decryptedContent;
     $message.appendChild($text);
 
     const $time = document.createElement('div');

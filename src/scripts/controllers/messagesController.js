@@ -1,4 +1,5 @@
 // Controlador de mensajes - Orquesta la carga y renderizado de mensajes
+import CryptoJS from 'crypto-js';
 
 import { loadMessages, sendMessage as sendApiMessage, updateChatStateMock } from '@/scripts/services/messages.js';
 import { renderAllMessages, addMessage, clearMessages } from '@/scripts/ui/components/ConversationPanel.js';
@@ -102,11 +103,15 @@ export const handleSendMessage = async (content) => {
     
     console.log('Enviando mensaje...', content);
     
+    const encryptedContent = CryptoJS.AES.encrypt(content, 'secret-key').toString();
+    
+    console.log('Enviando mensaje encriptado...', encryptedContent);
+    
     // Enviar mensaje (mock o API según configuración)
-    const newMessage = await sendApiMessage(currentChatId, content);
+    const newMessage = await sendApiMessage(currentChatId, encryptedContent);
 
     // Socket: Enviar mensaje
-    sendSocketMessage(currentChatId, content, user.username);
+    sendSocketMessage(currentChatId, encryptedContent, user.username);
     
     // Agregar al estado
     currentMessages.push(newMessage);
